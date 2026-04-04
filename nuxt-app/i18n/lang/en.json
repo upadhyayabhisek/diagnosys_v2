@@ -1,0 +1,30 @@
+{
+    "nav": {
+        "home": "Home",
+        "login": "Login",
+        "signup": "Sign Up",
+        "language": "Language",
+        "prediction": "Prediction",
+        "insights": "Insights",
+        "exercise": "Exercise"
+    },
+    "prediction": {
+        "title": "Disease Prediction Portal",
+        "subtitle": "Early detection is the first step toward a healthier life. Select a category to begin your assessment.",
+        "symptoms": "Common Symptoms",
+        "prevention": "Prevention Tips",
+        "button_text": "Predict Now",
+        "kidney": {
+            "name": "Kidney Disease",
+            "intro": "Kidney disease occurs when the kidneys lose their ability to filter waste from the blood. Early detection is vital."
+        },
+        "liver": {
+            "name": "Liver Disease",
+            "intro": "Includes conditions that impair liver functions such as detoxification, protein synthesis, and digestion support."
+        },
+        "diabetes": {
+            "name": "Diabetes",
+            "intro": "A chronic condition that affects how your body regulates blood sugar. Managing levels is critical to prevent complications."
+        }
+    }
+}
