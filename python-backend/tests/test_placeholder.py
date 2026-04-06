@@ -1,5 +1,5 @@
 import pytest
-from main import app
+from app import app
 from chatbot import predict_disease, get_recommendations
 
 @pytest.fixture
