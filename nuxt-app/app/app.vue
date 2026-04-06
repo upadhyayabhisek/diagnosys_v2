@@ -6,6 +6,7 @@
     <main class="container mx-auto px-6">
       <NuxtPage />
     </main>
+    <ChatWidget />
     <Footer />
   </div>
 </template>

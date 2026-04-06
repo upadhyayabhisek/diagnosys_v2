@@ -1,0 +1,546 @@
+{
+  "asthma": {
+    "en": {
+      "display_name": "Asthma",
+      "description": "A long-term condition that narrows the airways and can cause wheezing, coughing, chest tightness, and shortness of breath.",
+      "diet": [
+        "Leafy greens and colorful vegetables for general nutrition",
+        "Foods rich in vitamin D, such as fortified foods or egg yolk",
+        "Magnesium-rich foods and seeds, such as pumpkin seeds and nuts",
+        "Plenty of water to help keep mucus thin"
+      ],
+      "exercise": [
+        "Swimming in a warm environment if it does not trigger symptoms",
+        "Yoga and breathing exercises",
+        "Light walking or other low-intensity activity"
+      ],
+      "tips": [
+        "Carry your inhaler if prescribed",
+        "Avoid dust, smoke, strong perfumes, and known triggers",
+        "Keep your home clean and well ventilated",
+        "Follow your prescribed asthma action plan"
+      ],
+      "when_to_seek_help": [
+        "Breathing becomes difficult even at rest",
+        "Symptoms do not improve with prescribed medication",
+        "Lips or fingertips turn blue"
+      ]
+    },
+    "np": {
+      "display_name": "दम (Asthma)",
+      "description": "श्वास नली साँघुरो हुँदा हुने दीर्घकालीन समस्या हो, जसले घरघराहट, खोकी, छाती कस्सिएको जस्तो महसुस, र सास फेर्न गाह्रो हुन सक्छ।",
+      "diet": [
+        "हरियो सागसब्जी र रंगीन तरकारीहरू",
+        "भिटामिन डी युक्त खाना, जस्तै फोर्टिफाइड खाना वा अण्डाको पहेँलो भाग",
+        "म्याग्नेसियम युक्त खाना र बीउ, जस्तै कद्दूको बीउ र बदाम",
+        "प्रशस्त पानी"
+      ],
+      "exercise": [
+        "तातो/सुखद वातावरणमा पौडी खेल्ने",
+        "योग र श्वासप्रश्वास व्यायाम",
+        "हल्का हिँड्ने वा कम तीव्रताको गतिविधि"
+      ],
+      "tips": [
+        "डाक्टरले दिएको इन्हेलर साथमा राख्नुहोस्",
+        "धुलो, धुवाँ, कडा गन्ध, र ट्रिगरबाट बच्नुहोस्",
+        "घर सफा र हावा आउने बनाइराख्नुहोस्",
+        "आफ्नो asthma action plan पालना गर्नुहोस्"
+      ],
+      "when_to_seek_help": [
+        "आराममै पनि सास फेर्न गाह्रो हुन्छ",
+        "औषधिले सुधार हुँदैन",
+        "ओठ वा औंलाको टुप्पो नीलो हुन्छ"
+      ]
+    }
+  },
+  "hypertension": {
+    "en": {
+      "display_name": "Hypertension (High Blood Pressure)",
+      "description": "A condition where blood pressure stays higher than normal, increasing the risk of heart disease, stroke, and kidney problems.",
+      "diet": [
+        "Low-salt meals and home-cooked food",
+        "Bananas and other potassium-rich foods",
+        "Berries and other fruits high in antioxidants",
+        "Oats, whole grains, and fiber-rich foods"
+      ],
+      "exercise": [
+        "Brisk walking",
+        "Cycling",
+        "Aerobic exercise",
+        "Regular moderate activity most days of the week"
+      ],
+      "tips": [
+        "Check blood pressure regularly",
+        "Reduce stress with rest, breathing, or meditation",
+        "Limit caffeine if it raises your blood pressure",
+        "Avoid excess salt and processed foods"
+      ],
+      "when_to_seek_help": [
+        "Very high blood pressure readings",
+        "Chest pain, severe headache, or vision changes",
+        "Shortness of breath or weakness"
+      ]
+    },
+    "np": {
+      "display_name": "उच्च रक्तचाप (High BP)",
+      "description": "रक्तचाप सामान्यभन्दा बढी हुने अवस्था हो, जसले मुटु, मस्तिष्क, र मिर्गौलामा समस्या ल्याउन सक्छ।",
+      "diet": [
+        "कम नुन भएको घरको खाना",
+        "केरा र अन्य पोटासियमयुक्त फलफूल",
+        "बेरिजस्ता एन्टिअक्सिडेन्टयुक्त फल",
+        "ओट्स, सिङ्गै अन्न, र फाइबरयुक्त खाना"
+      ],
+      "exercise": [
+        "छिटो हिँड्ने",
+        "साइकल चलाउने",
+        "एरोबिक व्यायाम",
+        "हप्ताको धेरै दिन मध्यम व्यायाम"
+      ],
+      "tips": [
+        "नियमित रूपमा रक्तचाप जाँच गर्नुहोस्",
+        "तनाव कम गर्न आराम, श्वासप्रश्वास, वा ध्यान गर्नुहोस्",
+        "क्याफिनले असर गर्छ भने कम गर्नुहोस्",
+        "अत्यधिक नुन र प्रशोधित खाना कम गर्नुहोस्"
+      ],
+      "when_to_seek_help": [
+        "धेरै उच्च रक्तचाप देखिन्छ",
+        "छाती दुख्ने, कडा टाउको दुख्ने, वा दृष्टि धमिलो हुने",
+        "सास फेर्न गाह्रो वा कमजोरी महसुस हुने"
+      ]
+    }
+  },
+  "diabetes": {
+    "en": {
+      "display_name": "Diabetes",
+      "description": "A condition where the body has trouble controlling blood sugar levels, which can affect energy, vision, nerves, and organs over time.",
+      "diet": [
+        "Whole grains instead of refined carbs",
+        "Fiber-rich vegetables such as leafy greens, beans, and broccoli",
+        "Nuts and seeds in controlled portions",
+        "Balanced meals with protein, healthy fats, and complex carbohydrates"
+      ],
+      "exercise": [
+        "30 minutes of walking",
+        "Resistance training",
+        "Yoga or light stretching",
+        "Any consistent activity that improves movement and glucose control"
+      ],
+      "tips": [
+        "Check blood sugar as advised by your doctor",
+        "Take care of your feet and inspect them regularly",
+        "Stay hydrated",
+        "Avoid skipping meals when possible",
+        "Follow your medication plan carefully"
+      ],
+      "when_to_seek_help": [
+        "Very high or very low blood sugar symptoms",
+        "Frequent urination, severe thirst, confusion, or fainting",
+        "Wounds that do not heal"
+      ]
+    },
+    "np": {
+      "display_name": "मधुमेह (Diabetes)",
+      "description": "शरीरले रगतको चिनी सही रूपमा नियन्त्रण गर्न नसक्ने अवस्था हो, जसले समयसँगै ऊर्जा, दृष्टि, स्नायु, र अंगहरूमा असर गर्न सक्छ।",
+      "diet": [
+        "सेतो चामल वा रिफाइन्ड कार्ब्सभन्दा सिङ्गै अन्न",
+        "फाइबरयुक्त तरकारी जस्तै साग, दाल, ब्रोकोली",
+        "बदाम र बीउ, तर मात्रा नियन्त्रणमा",
+        "प्रोटिन, स्वस्थ बोसो, र जटिल कार्ब्ससहित सन्तुलित खाना"
+      ],
+      "exercise": [
+        "३० मिनेट हिँड्ने",
+        "शारीरिक कसरत",
+        "योग वा हल्का स्ट्रेचिङ",
+        "नियमित रूपमा चलायमान राख्ने कुनै पनि गतिविधि"
+      ],
+      "tips": [
+        "डाक्टरले भनेअनुसार सुगर जाँच गर्नुहोस्",
+        "गोडाको हेरचाह गर्नुहोस् र नियमित हेर्नुहोस्",
+        "प्रशस्त पानी पिउनुहोस्",
+        "खाना नछोड्ने प्रयास गर्नुहोस्",
+        "औषधिको योजना ठीकसँग पालना गर्नुहोस्"
+      ],
+      "when_to_seek_help": [
+        "सुगर धेरै बढेको वा धेरै घटेको लक्षण",
+        "धेरै पिसाब लाग्ने, अत्यधिक तिर्खा लाग्ने, अलमल वा बेहोस हुने",
+        "निको नहुने घाउ"
+      ]
+    }
+  },
+  "migraine": {
+    "en": {
+      "display_name": "Migraine",
+      "description": "A recurring headache disorder that may cause throbbing pain, nausea, sensitivity to light or sound, and sometimes visual changes.",
+      "diet": [
+        "Magnesium-rich foods such as nuts, seeds, and leafy greens",
+        "Ginger tea",
+        "Adequate hydration throughout the day",
+        "Regular meals to avoid hunger-triggered headaches"
+      ],
+      "exercise": [
+        "Gentle stretching",
+        "Deep breathing",
+        "Low-impact movement when symptoms are mild"
+      ],
+      "tips": [
+        "Avoid bright lights and loud noise during attacks",
+        "Keep a consistent sleep schedule",
+        "Reduce screen time when symptoms start",
+        "Track possible triggers such as certain foods, stress, or lack of sleep"
+      ],
+      "when_to_seek_help": [
+        "A sudden severe headache unlike previous ones",
+        "Headache with weakness, confusion, or vision loss",
+        "Frequent migraines that interfere with daily life"
+      ]
+    },
+    "np": {
+      "display_name": "माइग्रेन (Migraine)",
+      "description": "बारम्बार हुने टाउको दुखाइ हो, जसमा धड्किने पीडा, वाकवाकी, उज्यालो वा आवाजप्रति संवेदनशीलता, र कहिलेकाहीँ दृष्टिमा परिवर्तन हुन सक्छ।",
+      "diet": [
+        "म्याग्नेसियम युक्त खाना जस्तै बदाम, बीउ, र हरियो साग",
+        "अदुवा चिया",
+        "दिनभरि प्रशस्त पानी",
+        "खाना नियमित खाने"
+      ],
+      "exercise": [
+        "हल्का शरीर तन्काउने",
+        "गहिरो श्वास फेर्ने",
+        "लक्षण हल्का हुँदा कम असर गर्ने गतिविधि"
+      ],
+      "tips": [
+        "आक्रमण हुँदा चम्किलो प्रकाश र धेरै आवाजबाट बच्नुहोस्",
+        "सुत्ने समय नियमित राख्नुहोस्",
+        "लक्षण सुरु हुँदा स्क्रिन समय घटाउनुहोस्",
+        "कुन खानेकुरा, तनाव, वा निद्राको कमीले असर गर्छ भनेर नोट गर्नुहोस्"
+      ],
+      "when_to_seek_help": [
+        "पहिलेको भन्दा अचानक अत्यधिक टाउको दुखाइ",
+        "कमजोरी, अलमल, वा दृष्टि हराउनेसँगै टाउको दुख्नु",
+        "दैनिक जीवनमा असर गर्ने बारम्बार माइग्रेन"
+      ]
+    }
+  },
+  "gastritis": {
+    "en": {
+      "display_name": "Gastritis",
+      "description": "Inflammation of the stomach lining that can cause burning pain, nausea, bloating, or discomfort after eating.",
+      "diet": [
+        "Small, frequent meals instead of large heavy meals",
+        "Ginger in moderation",
+        "Probiotic yogurt or other gentle probiotic foods",
+        "Simple, non-irritating foods during flare-ups"
+      ],
+      "exercise": [
+        "Light post-meal walks",
+        "Gentle abdominal yoga",
+        "Low-intensity movement after digestion"
+      ],
+      "tips": [
+        "Avoid spicy, fried, and very acidic foods if they worsen symptoms",
+        "Do not skip meals",
+        "Avoid late-night snacks",
+        "Limit alcohol and smoking if relevant"
+      ],
+      "when_to_seek_help": [
+        "Severe stomach pain",
+        "Vomiting blood or black stools",
+        "Persistent symptoms that keep returning"
+      ]
+    },
+    "np": {
+      "display_name": "ग्यास्ट्राइटिस (Gastritis)",
+      "description": "पेटको भित्री तह सुन्निने अवस्था हो, जसले पोल्ने दुखाइ, वाकवाकी, फुल्ने, वा खाना खाएपछि असहजता ल्याउन सक्छ।",
+      "diet": [
+        "थोरै थोरै, धेरै पटक खाने",
+        "मध्यम मात्रामा अदुवा",
+        "प्रोबायोटिक दही वा हल्का पाचन हुने खाना",
+        "लक्षण बढ्दा सजिलो र नरिसाउने खाना"
+      ],
+      "exercise": [
+        "खाना खाएपछि हल्का हिँड्ने",
+        "हल्का पेटसम्बन्धी योग",
+        "पाचनपछि कम तीव्रताको हिँडडुल"
+      ],
+      "tips": [
+        "पिरो, चिल्लो, र धेरै अमिलो खाना नखाने",
+        "खाना नछोड्ने",
+        "ढिलो राती नखाने",
+        "धुम्रपान वा मदिरा प्रयोग हुन्छ भने कम गर्ने"
+      ],
+      "when_to_seek_help": [
+        "धेरै पेट दुख्ने",
+        "रगत बान्ता हुने वा कालो दिसा आउने",
+        "लक्षण बारम्बार दोहोरिने"
+      ]
+    }
+  },
+  "arthritis": {
+    "en": {
+      "display_name": "Arthritis",
+      "description": "A joint condition that causes pain, stiffness, swelling, and reduced movement in one or more joints.",
+      "diet": [
+        "Fatty fish rich in omega-3 fats",
+        "Turmeric in food",
+        "Walnuts and other healthy nuts",
+        "Garlic and anti-inflammatory foods"
+      ],
+      "exercise": [
+        "Joint-friendly swimming",
+        "Tai Chi",
+        "Stretching",
+        "Gentle strength exercises when tolerated"
+      ],
+      "tips": [
+        "Apply warm compress to stiff joints",
+        "Maintain a healthy weight",
+        "Stay active without overstraining joints",
+        "Use proper posture and supportive footwear"
+      ],
+      "when_to_seek_help": [
+        "Joint swelling is severe or sudden",
+        "Pain and stiffness keep worsening",
+        "Movement becomes very limited"
+      ]
+    },
+    "np": {
+      "display_name": "बाथ रोग (Arthritis)",
+      "description": "जोडामा दुखाइ, कडापन, सुन्निनु, र चलाउन गाह्रो हुने समस्या हो।",
+      "diet": [
+        "ओमेगा–३ युक्त माछा",
+        "बेसार",
+        "ओखर र अन्य स्वस्थ बदाम",
+        "लसुन र सुजन कम गर्ने खाना"
+      ],
+      "exercise": [
+        "जोडामा कम असर पर्ने पौडी",
+        "ताइ ची",
+        "स्ट्रेचिङ",
+        "सहन सकिने हल्का बल व्यायाम"
+      ],
+      "tips": [
+        "कडा भएको जोडामा तातोले सेक्ने",
+        "तौल नियन्त्रणमा राख्ने",
+        "अत्यधिक नथकाई सक्रिय रहने",
+        "सही posture र सहायक जुत्ता प्रयोग गर्ने"
+      ],
+      "when_to_seek_help": [
+        "जोडा धेरै सुन्निनु वा अचानक दुख्नु",
+        "दुखाइ र कडापन झन् बढ्नु",
+        "जोडा चलाउन निकै गाह्रो हुनु"
+      ]
+    }
+  },
+  "cancer": {
+    "en": {
+      "display_name": "Possible Serious Condition",
+      "description": "A general warning category that may indicate the need for urgent medical evaluation and screening. It should not be used to diagnose cancer directly.",
+      "diet": [
+        "Nutritious meals with adequate protein",
+        "Vegetables, especially cruciferous vegetables such as broccoli and cabbage",
+        "Fruits rich in antioxidants",
+        "Small balanced meals if appetite is low"
+      ],
+      "exercise": [
+        "Very light walking if the person feels able",
+        "Energy-saving activities",
+        "Only as tolerated and based on medical advice"
+      ],
+      "tips": [
+        "Consult a qualified doctor or oncologist promptly",
+        "Do not rely on self-diagnosis from symptoms alone",
+        "Follow the recommended screening or diagnostic tests",
+        "Maintain rest, hydration, and nutrition while waiting for evaluation"
+      ],
+      "when_to_seek_help": [
+        "Unexplained weight loss",
+        "Persistent lumps, bleeding, or unusual symptoms",
+        "Symptoms that continue or worsen over time"
+      ]
+    },
+    "np": {
+      "display_name": "गम्भीर अवस्था (जाँच आवश्यक)",
+      "description": "यो सामान्य चेतावनी श्रेणी हो, जसले तुरुन्त चिकित्सकीय जाँच र screening आवश्यक हुन सक्छ। यसलाई क्यान्सरको पक्का निदानका रूपमा प्रयोग गर्नु हुँदैन।",
+      "diet": [
+        "पर्याप्त प्रोटिन भएको पौष्टिक खाना",
+        "तरकारी, विशेष गरी ब्रोकोली र बन्दा जस्ता cruciferous तरकारी",
+        "एन्टिअक्सिडेन्ट युक्त फलफूल",
+        "भोक कम छ भने थोरै तर सन्तुलित खाना"
+      ],
+      "exercise": [
+        "शरीरले सक्ने भए धेरै हल्का हिँडडुल",
+        "ऊर्जा बचत गर्ने गतिविधि",
+        "डाक्टरको सल्लाह अनुसार मात्र"
+      ],
+      "tips": [
+        "तुरुन्त योग्य डाक्टर वा oncologist सँग परामर्श लिनुहोस्",
+        "लक्षण मात्रको भरमा आत्म-निदान नगर्नुहोस्",
+        "सुझाइएको screening वा जाँचहरू गराउनुहोस्",
+        "जाँच कुर्दै गर्दा आराम, पानी, र पोषणमा ध्यान दिनुहोस्"
+      ],
+      "when_to_seek_help": [
+        "कारण नखुलेको तौल घट्नु",
+        "लामो समयसम्म रहने गाँठो, रगत बग्नु, वा असामान्य लक्षण",
+        "समयसँगै झन् बढ्दै जाने लक्षण"
+      ]
+    }
+  },
+  "flu": {
+    "en": {
+      "display_name": "Influenza (Flu)",
+      "description": "A contagious viral infection that often causes fever, body aches, sore throat, cough, and fatigue.",
+      "diet": [
+        "Warm soups and broths",
+        "Vitamin C-rich fruits such as oranges and lemons",
+        "Honey and lemon in warm water",
+        "Soft foods and plenty of fluids"
+      ],
+      "exercise": [
+        "Rest is best during the acute phase",
+        "Avoid strenuous activity until recovery"
+      ],
+      "tips": [
+        "Stay warm and rest",
+        "Steam inhalation may help with congestion",
+        "Limit contact with others to reduce spread",
+        "Wash hands often"
+      ],
+      "when_to_seek_help": [
+        "Difficulty breathing",
+        "Persistent high fever",
+        "Severe weakness or dehydration"
+      ]
+    },
+    "np": {
+      "display_name": "रुघाखोकी/ज्वरो (Flu)",
+      "description": "यो सरुवा भाइरल संक्रमण हो, जसले प्रायः ज्वरो, शरीर दुख्ने, घाँटी दुख्ने, खोकी, र थकान गराउँछ।",
+      "diet": [
+        "तातो झोलिलो खाना",
+        "सुन्तला, कागती जस्ता भिटामिन सी युक्त फल",
+        "मह र कागती मिसाएको तातो पानी",
+        "नरम खाना र प्रशस्त तरल पदार्थ"
+      ],
+      "exercise": [
+        "तीव्र चरणमा पूर्ण आराम",
+        "निको नभएसम्म कडा व्यायाम नगर्ने"
+      ],
+      "tips": [
+        "न्यानो भएर बस्ने र आराम गर्ने",
+        "धुलो/नाक बन्द भएको बेला बाफ लिन मिल्छ",
+        "अरूलाई सर्ने जोखिम कम गर्न अलग बस्ने",
+        "हात बारम्बार धुने"
+      ],
+      "when_to_seek_help": [
+        "सास फेर्न गाह्रो हुने",
+        "धेरै ज्वरो लामो समय रहिरहने",
+        "अत्यधिक कमजोरी वा पानीको कमी"
+      ]
+    }
+  },
+  "cold": {
+    "en": {
+      "display_name": "Common Cold",
+      "description": "A mild viral infection of the nose and throat that usually causes runny nose, sneezing, sore throat, and cough.",
+      "diet": [
+        "Warm liquids",
+        "Herbal tea",
+        "Warm soup",
+        "Light, easy-to-digest meals"
+      ],
+      "exercise": [
+        "Light movement if there is no fever",
+        "Rest if the body feels tired"
+      ],
+      "tips": [
+        "Saltwater gargle for throat comfort",
+        "Use nasal spray if recommended",
+        "Get plenty of sleep",
+        "Keep drinking fluids"
+      ],
+      "when_to_seek_help": [
+        "Symptoms last unusually long",
+        "High fever develops",
+        "Breathing becomes difficult"
+      ]
+    },
+    "np": {
+      "display_name": "सामान्य रुघाखोकी (Cold)",
+      "description": "नाक र घाँटीमा हुने हल्का भाइरल संक्रमण हो, जसले नाक बग्ने, हाछ्युँ आउने, घाँटी दुख्ने, र खोकी ल्याउन सक्छ।",
+      "diet": [
+        "तातो झोल",
+        "हर्बल चिया",
+        "तातो सुप",
+        "हल्का र सजिलै पच्ने खाना"
+      ],
+      "exercise": [
+        "ज्वरो छैन भने हल्का हिँडडुल",
+        "शरीर थकित छ भने आराम गर्ने"
+      ],
+      "tips": [
+        "नुन पानीले कुल्ला गर्ने",
+        "डाक्टरले सल्लाह दिए अनुसार नाकको स्प्रे प्रयोग गर्ने",
+        "पर्याप्त सुत्ने",
+        "प्रशस्त तरल पदार्थ पिउने"
+      ],
+      "when_to_seek_help": [
+        "लक्षण धेरै दिनसम्म रहिरहने",
+        "ज्वरो बढ्ने",
+        "सास फेर्न गाह्रो हुने"
+      ]
+    }
+  },
+  "eczema": {
+    "en": {
+      "display_name": "Eczema",
+      "description": "A skin condition that causes dryness, itching, redness, and inflammation. It may flare up and settle down over time.",
+      "diet": [
+        "Anti-inflammatory foods",
+        "Quercetin-rich apples",
+        "Salmon and other omega-3-rich foods",
+        "Adequate water intake"
+      ],
+      "exercise": [
+        "Low-sweat activities",
+        "Indoor walking",
+        "Gentle stretching"
+      ],
+      "tips": [
+        "Moisturize frequently, especially after bathing",
+        "Avoid harsh soaps and very hot water",
+        "Wear soft cotton clothes",
+        "Try not to scratch irritated skin"
+      ],
+      "when_to_seek_help": [
+        "Skin becomes infected, painful, or very swollen",
+        "Rash spreads quickly",
+        "Itching is severe and persistent"
+      ]
+    },
+    "np": {
+      "display_name": "छालाको समस्या (Eczema)",
+      "description": "छाला सुख्खा हुने, चिलाउने, रातो हुने, र सुन्निने समस्या हो। यो बेला बेला बढ्न र घट्न सक्छ।",
+      "diet": [
+        "सुजन कम गर्ने खाना",
+        "क्वेरसेटिन युक्त स्याउ",
+        "माछा र अन्य ओमेगा–३ युक्त खाना",
+        "प्रशस्त पानी"
+      ],
+      "exercise": [
+        "धेरै पसिना नआउने व्यायाम",
+        "भित्रै हिँडडुल",
+        "हल्का स्ट्रेचिङ"
+      ],
+      "tips": [
+        "स्नानपछि विशेष गरी मोइस्चराइजर लगाउने",
+        "कडा साबुन र धेरै तातो पानीबाट बच्ने",
+        "सुतीको नरम लुगा लगाउने",
+        "चिलाएको छाला कोट्याउन नखोज्ने"
+      ],
+      "when_to_seek_help": [
+        "छाला संक्रमित, दुख्ने, वा धेरै सुन्निने",
+        "र्‍यास छिटो फैलिने",
+        "चिलाउने समस्या धेरै समयसम्म रहने"
+      ]
+    }
+  }
+}

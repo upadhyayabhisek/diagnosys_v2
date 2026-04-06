@@ -134,25 +134,5 @@
     </section>
   </div>
 
-  <div class="p-4">
-    <h1 class="text-xl font-bold">Backend Test</h1>
-    <button
-      @click="callApi"
-      class="px-4 py-2 bg-blue-500 text-white rounded mt-4"
-    >
-      Click to Print in Flask
-    </button>
-  </div>
+
 </template>
-
-<script setup>
-import { useTestApi } from "@services/test";
-
-const { printOnBackend } = useTestApi();
-
-const callApi = async () => {
-  console.log("Sending request...");
-  const res = await printOnBackend();
-  console.log("Response from Flask:", res);
-};
-</script>

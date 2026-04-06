@@ -26,5 +26,16 @@
             "name": "Diabetes",
             "intro": "A chronic condition that affects how your body regulates blood sugar. Managing levels is critical to prevent complications."
         }
+    },
+    "chat": {
+        "engine_name": "MediAI",
+        "status_analyzing": "Analyzing...",
+        "status_subtext_idle": "Neural Core v4.0",
+        "status_subtext_active": "Live Pattern Match",
+        "welcome_message": "Diagnostic system active. State your symptoms for analysis.",
+        "input_placeholder": "Describe symptoms...",
+        "analyzing_text": "Analyzing pattern: \"{input}\"...",
+        "prediction_prefix": "Analysis suggests a high probability of:",
+        "diet_label": "Recommended Dietary Adjustments"
     }
 }
