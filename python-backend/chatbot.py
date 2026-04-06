@@ -5,6 +5,9 @@ from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 import warnings
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 warnings.filterwarnings('ignore')
 SYSTEM_MESSAGES = {
@@ -22,8 +25,10 @@ SYSTEM_MESSAGES = {
     }
 }
 
-csv_path = r"C:\Users\Acer\Desktop\Coding\MDS_6th_sem\backend\chatbot\data\training_data.csv"
-json_path = r"C:\Users\Acer\Desktop\Coding\MDS_6th_sem\backend\chatbot\data\knowledge_base.json"
+# csv_path = r"C:\Users\Acer\Desktop\Coding\MDS_6th_sem\backend\chatbot\data\training_data.csv"
+# json_path = r"C:\Users\Acer\Desktop\Coding\MDS_6th_sem\backend\chatbot\data\knowledge_base.json"
+csv_path = os.path.join(BASE_DIR, "data", "training_data.csv")
+json_path = os.path.join(BASE_DIR, "data", "knowledge_base.json")
 
 df = pd.read_csv(csv_path)
 pipeline = Pipeline([
