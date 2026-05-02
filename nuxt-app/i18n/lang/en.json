@@ -6,7 +6,11 @@
         "language": "Language",
         "prediction": "Prediction",
         "insights": "Insights",
-        "exercise": "Exercise"
+        "exercise": "Exercise",
+        "faq": "FAQ",
+        "howItWorks": "How It works",
+        "hospitals": "Hospitals",
+        "aboutUs": "About Us"
     },
     "prediction": {
         "title": "Disease Prediction Portal",
@@ -40,7 +44,7 @@
     },
     "home": {
         "hero": {
-            "badge": "Clinical AI v2.0",
+            "badge": "MediAI",
             "title_part1": "Your health.",
             "title_part2": "Decoded.",
             "subtitle": "Advanced predictive intelligence for metabolic, renal, and hepatic health. Understand your body with clinical-grade clarity.",
@@ -80,5 +84,16 @@
             "description": "Join a proactive network using advanced intelligence to monitor health trends and live informed.",
             "button": "Create Your Account"
         }
+    },
+    "footer": {
+        "description": "Leveraging neural networks to provide preliminary health insights. Empowering proactive wellness through accessible data.",
+        "compliance": "Compliance",
+        "privacyPolicy": "Privacy Policy",
+        "termsOfService": "Terms of Service",
+        "assistance": "Assistance",
+        "helpCenter": "Help Center",
+        "emergencyInfo": "Emergency Info",
+        "disclaimer": "Disclaimer: MediAI is an information-only platform powered by machine learning. It is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+        "copyright": "© 2026 MediAI Health Systems Inc."
     }
 }

@@ -231,9 +231,10 @@ const MoonIcon = () =>
 
 const menuItems = [
   { to: "/", label: "nav.home", fall: "Home" },
-  { to: "/prediction", label: "nav.prediction", fall: "Prediction" },
-  { to: "/insights", label: "nav.insights", fall: "Insights" },
-  { to: "/exercise", label: "nav.exercise", fall: "Exercise" },
+  { to: "/about-us", label: "nav.aboutUs", fall: "About Us" },
+  { to: "/hospitals", label: "nav.hospitals", fall: "Find Hospitals" },
+  { to: "/how-it-works", label: "nav.howItWorks", fall: "How it Works" },
+  { to: "/faq", label: "nav.faq", fall: "FAQ" },
 ];
 
 const flags = {
