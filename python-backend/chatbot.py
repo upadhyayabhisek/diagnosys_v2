@@ -25,8 +25,7 @@ SYSTEM_MESSAGES = {
     }
 }
 
-# csv_path = r"C:\Users\Acer\Desktop\Coding\MDS_6th_sem\backend\chatbot\data\training_data.csv"
-# json_path = r"C:\Users\Acer\Desktop\Coding\MDS_6th_sem\backend\chatbot\data\knowledge_base.json"
+
 csv_path = os.path.join(BASE_DIR, "data", "training_data.csv")
 json_path = os.path.join(BASE_DIR, "data", "knowledge_base.json")
 
@@ -39,7 +38,7 @@ pipeline = Pipeline([
 X_train, X_test, y_train, y_test = train_test_split(df['text'], df['disease'], test_size=0.2, random_state=42)
 pipeline.fit(X_train, y_train)
 model_accuracy = pipeline.score(X_test, y_test)
-print(f"🧠 Brain Initialized! Base Accuracy: {model_accuracy:.2%}")
+print(f"Chatbot Initialized! Base Accuracy: {model_accuracy:.2%}")
 
 with open(json_path, encoding='utf-8') as f:
     knowledge_base = json.load(f)
@@ -61,12 +60,14 @@ def get_recommendations(disease, lang="en"):
             "error": msgs["low_confidence"],
             "disclaimer": msgs["disclaimer"]
         }
+    
     disease_data = knowledge_base.get(disease.lower(), {})
-    lang_data = disease_data.get(lang, disease_data) 
+    lang_data = disease_data.get(lang, {}) 
 
     if lang_data:
         return {
             "disease_name": lang_data.get("display_name", disease.title()),
+            "description": lang_data.get("description", ""), 
             "diet": lang_data.get('diet', []),
             "exercise": lang_data.get('exercise', []),
             "tips": lang_data.get('tips', []),

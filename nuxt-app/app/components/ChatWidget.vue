@@ -92,36 +92,39 @@
     </button>
   </div>
 </template>
-
 <script setup>
-const { t, locale } = useI18n(); // Access locale to watch for changes
+const { t, locale } = useI18n();
+
 const isOpen = ref(false);
 const userInput = ref('');
 const isProcessing = ref(false);
 const messageContainer = ref(null);
 
-// Initialize messages
 const messages = ref([
   { role: 'bot', text: t('chat.welcome_message'), key: 'welcome' }
 ]);
 
-// 1. Watch for language changes to update existing bot messages
-watch(locale, () => {
-  messages.value = messages.value.map(msg => {
-    if (msg.role === 'bot') {
-      // If it's the welcome message, re-translate it
-      if (msg.key === 'welcome') {
-        return { ...msg, text: t('chat.welcome_message') };
-      }
-      // If you want to translate "Analyzing..." messages too, 
-      // you'd need to store the original input in the msg object
-      if (msg.originalInput) {
-        return { ...msg, text: t('chat.analyzing_text', { input: msg.originalInput }) };
-      }
-    }
-    return msg;
-  });
-});
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const getLabel = (key, fallback) => {
+  const translated = t(key);
+  return translated === key ? fallback : translated;
+};
+
+const formatConfidence = (confidence) => {
+  if (confidence === null || confidence === undefined) return '';
+  if (typeof confidence === 'number') {
+    return confidence <= 1
+      ? `${(confidence * 100).toFixed(2)}%`
+      : `${confidence.toFixed(2)}%`;
+  }
+  return String(confidence);
+};
+
+const formatList = (arr) => {
+  if (!Array.isArray(arr) || arr.length === 0) return '• No specific recommendations';
+  return arr.map((item) => `• ${item}`).join('\n');
+};
 
 const scrollToBottom = async () => {
   await nextTick();
@@ -130,62 +133,127 @@ const scrollToBottom = async () => {
   }
 };
 
+const typeBotMessage = async (text, extra = {}) => {
+  const msg = {
+    role: 'bot',
+    text: '',
+    ...extra
+  };
+
+  messages.value.push(msg);
+  await scrollToBottom();
+
+  for (let i = 0; i < text.length; i++) {
+    msg.text = text.slice(0, i + 1);
+
+    const ch = text[i];
+    if (ch === '\n') {
+      await sleep(20);
+    } else if (/[.,!?]/.test(ch)) {
+      await sleep(70);
+    } else {
+      await sleep(10);
+    }
+  }
+
+  await scrollToBottom();
+};
+
+watch(locale, () => {
+  messages.value = messages.value.map((msg) => {
+    if (msg.role !== 'bot') return msg;
+
+    if (msg.key === 'welcome') {
+      return { ...msg, text: t('chat.welcome_message') };
+    }
+
+    return msg;
+  });
+});
+
 const sendMessage = async () => {
   if (!userInput.value.trim() || isProcessing.value) return;
-  
-  const tempInput = userInput.value;
+
+  const tempInput = userInput.value.trim();
   messages.value.push({ role: 'user', text: tempInput });
   userInput.value = '';
   isProcessing.value = true;
+
   await scrollToBottom();
 
   try {
-    // 1. Call your Flask API
-    // We pass 'locale.value' so the backend knows whether to send EN or NP tips
     const response = await $fetch('http://127.0.0.1:5001/analyze', {
       method: 'POST',
-      body: { 
+      body: {
         message: tempInput,
-        lang: locale.value 
+        lang: locale.value
       }
     });
 
-    const data = response.prediction;
+    const prediction = response?.prediction ?? response;
+    const disease = prediction?.disease;
+    const details = prediction?.details ?? {};
 
-    // 2. If the AI identified a disease
-    if (data.disease !== 'unknown' && data.disease !== 'अज्ञात') {
-      // Message 1: The Diagnosis
-      messages.value.push({ 
-        role: 'bot', 
-        text: `${t('chat.prediction_prefix')} ${data.details.disease_name} (${data.confidence})` 
-      });
+    const unknownEn = 'unknown';
+    const unknownNp = 'अज्ञात';
 
-      // Message 2: Diet & Exercise (formatted as a string or list)
-      const dietText = data.details.diet.join(', ');
-      messages.value.push({ 
-        role: 'bot', 
-        text: `${t('chat.diet_label')}: ${dietText}` 
-      });
+    if (disease && disease !== unknownEn && disease !== unknownNp) {
+      const diseaseName =
+        details.disease_name ||
+        prediction.disease_name ||
+        disease;
+
+      const confidenceText = formatConfidence(
+        prediction.confidence ?? details.confidence
+      );
+
+      const diagnosisLine = confidenceText
+        ? `${getLabel('chat.prediction_prefix', 'Analysis suggests a high probability of:')} ${diseaseName} (${confidenceText})`
+        : `${getLabel('chat.prediction_prefix', 'Analysis suggests a high probability of:')} ${diseaseName}`;
+
+      await typeBotMessage(diagnosisLine);
+
+      if (details.description) {
+        await typeBotMessage(
+          `${getLabel('chat.description_label', 'Description')}:\n${details.description}`
+        );
+      }
+
+      await typeBotMessage(
+        `${getLabel('chat.diet_label', 'Recommended Dietary Adjustments')}:\n${formatList(details.diet)}`
+      );
+
+      await typeBotMessage(
+        `${getLabel('chat.exercise_label', 'Recommended Exercises')}:\n${formatList(details.exercise)}`
+      );
+
+      await typeBotMessage(
+        `${getLabel('chat.tips_label', 'Helpful Tips')}:\n${formatList(details.tips)}`
+      );
+
+      await typeBotMessage(
+        `${getLabel('chat.seek_help_label', 'When to seek help')}:\n${formatList(details.when_to_seek_help)}`
+      );
+
+      if (details.disclaimer) {
+        await typeBotMessage(details.disclaimer);
+      }
     } else {
-      // 3. Handle the Fail-Safe (Low confidence)
-      messages.value.push({ 
-        role: 'bot', 
-        text: data.details.error 
-      });
+      await typeBotMessage(
+        details.error || getLabel('chat.low_confidence', "I couldn't clearly identify your symptoms.")
+      );
+      if (details.disclaimer) {
+        await typeBotMessage(details.disclaimer);
+      }
     }
-
   } catch (error) {
-    console.error("Backend Error:", error);
-    messages.value.push({ 
-      role: 'bot', 
-      text: t('chat.error_message') 
-    });
+    console.error('Backend Error:', error);
+    await typeBotMessage(t('chat.error_message'));
   } finally {
     isProcessing.value = false;
     await scrollToBottom();
   }
 };
-
 </script>
 
 <style scoped>

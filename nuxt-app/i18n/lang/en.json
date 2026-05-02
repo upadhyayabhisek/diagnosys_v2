@@ -37,5 +37,48 @@
         "analyzing_text": "Analyzing pattern: \"{input}\"...",
         "prediction_prefix": "Analysis suggests a high probability of:",
         "diet_label": "Recommended Dietary Adjustments"
+    },
+    "home": {
+        "hero": {
+            "badge": "Clinical AI v2.0",
+            "title_part1": "Your health.",
+            "title_part2": "Decoded.",
+            "subtitle": "Advanced predictive intelligence for metabolic, renal, and hepatic health. Understand your body with clinical-grade clarity.",
+            "cta_primary": "Start Assessment",
+            "cta_secondary": "Sign In"
+        },
+        "tags": {
+            "renal": "Renal Health",
+            "hepatic": "Hepatic Health",
+            "metabolic": "Metabolic Health"
+        },
+        "features": {
+            "synthesis": {
+                "title": "Multi-System Intelligence.",
+                "description": "Our specialized engine securely cross-references Kidney, Liver, and Diabetes markers to map your holistic vitality trends and long-term risk profile."
+            },
+            "companion": {
+                "title": "AI Health Companion",
+                "description": "Context-aware diet protocols, exercise routines, and immediate clinical guidance right in your dashboard.",
+                "prompt_example": "How can I optimize fiber intake for my glucose levels today?"
+            },
+            "charts": {
+                "title": "Visual Analytics",
+                "description": "Dynamic, interactive charts that transform your medical history into clear, actionable progress."
+            },
+            "reports": {
+                "title": "Smart Clinical Reports",
+                "description": "Generate comprehensive PDF summaries from your AI predictions, perfectly formatted for your next doctor's visit."
+            },
+            "emergency": {
+                "title": "Emergency Hub",
+                "description": "Immediate access to critical support protocols and medical information upon high-risk detection."
+            }
+        },
+        "final_cta": {
+            "title": "Take control of your vitals.",
+            "description": "Join a proactive network using advanced intelligence to monitor health trends and live informed.",
+            "button": "Create Your Account"
+        }
     }
 }
