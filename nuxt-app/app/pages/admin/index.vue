@@ -115,6 +115,7 @@ const flags = {
         >
           M
         </div>
+
         <h2 class="text-xl font-black tracking-tighter">
           MediAI <span class="text-[var(--primary)]">Pro</span>
         </h2>
@@ -173,6 +174,7 @@ const flags = {
                   stroke-width="2.5"
                   d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
                 />
+
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -182,6 +184,7 @@ const flags = {
               </svg>
               <span>Settings</span>
             </div>
+
             <span
               :class="{ 'rotate-180': isSettingsOpen }"
               class="transition-transform duration-300 text-xs"
@@ -212,11 +215,13 @@ const flags = {
               >
                 Appearance
               </div>
+
               <button
                 @click="toggleColorMode"
                 class="w-full flex items-center gap-3 p-3 text-xs font-bold rounded-xl bg-[var(--background)] border border-[var(--border)] hover:border-[var(--primary)] transition-all"
               >
                 <span>{{ colorMode.value === "dark" ? "☀️" : "🌙" }}</span>
+
                 {{ colorMode.value === "dark" ? "Light Mode" : "Dark Mode" }}
               </button>
 
@@ -227,6 +232,7 @@ const flags = {
               >
                 Language
               </div>
+
               <div class="grid grid-cols-1 gap-1">
                 <button
                   v-for="lang in locales"
@@ -278,6 +284,7 @@ const flags = {
         >
           Admin Panel
         </p>
+
         <h1 class="text-5xl font-black tracking-tight mb-4">
           Welcome back, <br /><span class="opacity-50">{{ adminName }}</span>
         </h1>
@@ -306,11 +313,13 @@ const flags = {
               />
             </svg>
           </div>
+
           <h3
             class="text-[10px] font-bold uppercase text-[var(--subtext)] mb-1"
           >
             Growth Metric {{ i }}
           </h3>
+
           <p class="text-3xl font-black tracking-tight">+{{ 12 * i }}%</p>
         </div>
       </div>
@@ -320,12 +329,14 @@ const flags = {
       >
         <div class="flex justify-between items-center mb-8">
           <h2 class="text-xl font-black">Recent System Activity</h2>
+
           <button
             class="px-4 py-2 bg-[var(--text)] text-[var(--background)] rounded-full text-xs font-bold"
           >
             View Reports
           </button>
         </div>
+
         <div class="space-y-4">
           <div
             v-for="n in 4"
@@ -338,13 +349,16 @@ const flags = {
               >
                 U
               </div>
+
               <div>
                 <p class="text-sm font-bold">New User Registered</p>
+
                 <p class="text-[10px] text-[var(--subtext)] font-medium">
                   user_{{ n }}42@example.com
                 </p>
               </div>
             </div>
+
             <p class="text-[10px] font-bold text-[var(--subtext)]">
               2 mins ago
             </p>

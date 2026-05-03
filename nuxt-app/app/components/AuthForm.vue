@@ -56,7 +56,7 @@ const handleSubmit = async () => {
       props.type === "login"
         ? { email: form.value.email, password: form.value.password }
         : { ...form.value };
-    const { login } = useAuth(); // 🔥 ADD THIS
+    const { login } = useAuth();
     const data: any = await $fetch(`http://localhost:5001${endpoint}`, {
       method: "POST",
       body: payload,

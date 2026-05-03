@@ -16,15 +16,31 @@ def register():
     data = request.json
     if not all(k in data for k in ("name", "email", "password")):
         return jsonify({"error": "Missing required fields"}), 400
+    
+    name = data.get('name')
+    email = data.get('email')
+    role = 'user' # Default role
+    
     success = create_user(
-        name=data.get('name'),
-        email=data.get('email'),
+        name=name,
+        email=email,
         password=data.get('password'),
         gender=data.get('gender'),
-        birthday=data.get('birthday')
+        birthday=data.get('birthday'),
+        role=role
     )
+    
     if success:
-        return jsonify({"status": "success", "message": "User registered"}), 201
+        return jsonify({
+            "status": "success", 
+            "message": "User registered",
+            "user": {
+                "name": name,
+                "email": email,
+                "role": role
+            }
+        }), 201
+        
     return jsonify({"error": "Email already registered"}), 400
 
 @app.route("/login", methods=["POST"])
