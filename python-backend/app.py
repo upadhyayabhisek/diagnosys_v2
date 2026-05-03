@@ -16,7 +16,6 @@ def register():
     data = request.json
     if not all(k in data for k in ("name", "email", "password")):
         return jsonify({"error": "Missing required fields"}), 400
-
     success = create_user(
         name=data.get('name'),
         email=data.get('email'),

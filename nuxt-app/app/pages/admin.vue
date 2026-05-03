@@ -150,7 +150,6 @@ const flags = {
       </nav>
 
       <div class="mt-auto pt-6 border-t border-[var(--border)] space-y-2">
-        <!-- SETTINGS GROUP -->
         <div class="relative px-2">
           <button
             @click="isSettingsOpen = !isSettingsOpen"
@@ -203,13 +202,11 @@ const flags = {
             </span>
           </button>
 
-          <!-- SOLID FLOATING PANEL -->
           <transition name="pop-up">
             <div
               v-if="isSettingsOpen"
               class="absolute bottom-full left-0 mb-3 w-full p-2 bg-[var(--card)] border-2 border-[var(--border)] rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.2)] z-50"
             >
-              <!-- Appearance Section -->
               <div
                 class="px-3 py-2 text-[10px] font-black uppercase tracking-widest text-[var(--subtext)]"
               >
@@ -225,7 +222,6 @@ const flags = {
 
               <div class="h-[1px] bg-[var(--border)] my-3 mx-2"></div>
 
-              <!-- Language Section -->
               <div
                 class="px-3 py-2 text-[10px] font-black uppercase tracking-widest text-[var(--subtext)]"
               >
@@ -251,7 +247,6 @@ const flags = {
           </transition>
         </div>
 
-        <!-- SOLID LOGOUT BUTTON -->
         <div class="px-2">
           <button
             @click="logout"
@@ -276,7 +271,6 @@ const flags = {
       </div>
     </aside>
 
-    <!-- MAIN CONTENT AREA -->
     <main class="flex-1 overflow-y-auto p-8 md:p-12">
       <header class="mb-12">
         <p
@@ -289,7 +283,6 @@ const flags = {
         </h1>
       </header>
 
-      <!-- Dashboard Cards -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
         <div
           v-for="i in 3"
@@ -322,7 +315,6 @@ const flags = {
         </div>
       </div>
 
-      <!-- Mock Data Section -->
       <section
         class="bg-[var(--card)] border border-[var(--border)] rounded-[3rem] p-8"
       >
