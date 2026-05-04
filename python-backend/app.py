@@ -46,18 +46,25 @@ def register():
 @app.route("/login", methods=["POST"])
 def login():
     data = request.json
-    user = verify_user(data.get('email'), data.get('password'))
-    if user:
+    result = verify_user(data.get('email'), data.get('password'))
+    if result == "account_disabled":
+        return jsonify({
+            "status": "error",
+            "error": "account_disabled"
+        }), 403
+    if result:
         return jsonify({
             "status": "success",
             "user": {
-                "name": user['name'],
-                "email": user['email'],
-                "role": user['role']
+                "name": result['name'],
+                "email": result['email'],
+                "role": result['role']
             }
         })
-    
-    return jsonify({"error": "Invalid email or password"}), 401
+    return jsonify({
+        "status": "error", 
+        "error": "Invalid email or password"
+    }), 401
 
 @app.route("/analyze", methods=["POST"])
 def analyze():

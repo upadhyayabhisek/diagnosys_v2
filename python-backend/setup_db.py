@@ -19,20 +19,28 @@ def init_db():
             role TEXT DEFAULT 'user',
             gender TEXT,
             birthday TEXT,
+            status INTEGER DEFAULT 1,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ''')
     
     hashed_password = generate_password_hash("admin123")
     
-    try:
-        cursor.execute(
-            "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)",
-            ("Admin User", "admin@mail.com", hashed_password, "admin")
-        )
-        print("Admin user created successfully.")
-    except sqlite3.IntegrityError:
-        print("Admin user already exists. If you changed the hashing method, delete the .db file and run this again.")
+    test_users = [
+        ("Admin User", "admin@mail.com", "admin", 1),       # Admin (Active)
+        ("Active Tester", "mail1@mail.com", "user", 1),     # Normal User (Active)
+        ("Disabled Tester", "mail2@mail.com", "user", 0)    # Normal User (Disabled)
+    ]
+    
+    for name, email, role, status in test_users:
+        try:
+            cursor.execute(
+                "INSERT INTO users (name, email, password, role, status) VALUES (?, ?, ?, ?, ?)",
+                (name, email, hashed_password, role, status)
+            )
+            print(f"User {email} created successfully.")
+        except sqlite3.IntegrityError:
+            print(f"User {email} already exists.")
         
     conn.commit()
     conn.close()

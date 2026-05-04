@@ -13,9 +13,13 @@ def verify_user(email, provided_password):
     conn = get_db_connection()
     user = conn.execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone()
     conn.close()
-    
-    if user and check_password_hash(user['password'], provided_password):
-        return user
+    if user:
+        if check_password_hash(user['password'], provided_password):
+            if user['status'] == 1:
+                return user
+            else:
+                print(f"Login attempt for disabled account: {email}")
+                return "account_disabled"
     return None
 
 def create_user(name, email, password, role='user', gender=None, birthday=None):
