@@ -1,9 +1,7 @@
 <template>
-  <!-- FULL WIDTH NAVBAR -->
   <div
     class="sticky top-0 z-50 w-full border-b backdrop-blur-xl bg-[var(--bg)]/70 border-[var(--border)]"
   >
-    <!-- CENTERED CONTENT -->
     <nav class="mx-auto max-w-7xl px-6 md:px-8 py-4">
       <div class="flex items-center justify-between">
         <!-- LOGO -->
@@ -31,19 +29,36 @@
         </div>
 
         <div class="hidden md:flex items-center gap-3">
-          <NuxtLink
-            to="/login"
-            class="text-sm font-medium text-[var(--subtext)] hover:text-[var(--text)] transition"
-          >
-            {{ $t("nav.login") }}
-          </NuxtLink>
+          <template v-if="!user">
+            <NuxtLink
+              to="/login"
+              class="text-sm font-medium text-[var(--subtext)] hover:text-[var(--text)] transition"
+            >
+              {{ $t("nav.login") }}
+            </NuxtLink>
 
-          <NuxtLink
-            to="/signup"
-            class="px-5 py-2 text-sm font-bold text-white rounded-xl bg-[var(--primary)] hover:opacity-90 shadow-lg shadow-blue-500/10 active:scale-95 transition"
-          >
-            {{ $t("nav.signup") }}
-          </NuxtLink>
+            <NuxtLink
+              to="/signup"
+              class="px-5 py-2 text-sm font-bold text-white rounded-xl bg-[var(--primary)] hover:opacity-90 shadow-lg shadow-blue-500/10 active:scale-95 transition"
+            >
+              {{ $t("nav.signup") }}
+            </NuxtLink>
+          </template>
+          <template v-else>
+            <NuxtLink
+              :to="authLink"
+              class="px-5 py-2 text-sm font-bold text-white rounded-xl bg-[var(--primary)] hover:opacity-90 shadow-lg shadow-blue-500/10 active:scale-95 transition"
+            >
+              {{ authLabel }}
+            </NuxtLink>
+
+            <button
+              @click="logout"
+              class="text-sm font-medium text-red-500 hover:text-red-600 transition px-2"
+            >
+              Logout
+            </button>
+          </template>
 
           <div class="w-[1px] h-5 bg-[var(--border)] mx-1"></div>
 
@@ -147,6 +162,33 @@
           >
             {{ $t(item.label) || item.fall }}
           </NuxtLink>
+          <hr class="border-[var(--border)]" />
+          <template v-if="!user">
+            <NuxtLink
+              to="/login"
+              @click="isMobileOpen = false"
+              class="px-4 py-3 text-lg font-medium"
+              >Login</NuxtLink
+            >
+          </template>
+          <template v-else>
+            <NuxtLink
+              :to="authLink"
+              @click="isMobileOpen = false"
+              class="px-4 py-3 text-lg font-bold text-[var(--primary)]"
+            >
+              {{ authLabel }}
+            </NuxtLink>
+            <button
+              @click="
+                logout();
+                isMobileOpen = false;
+              "
+              class="px-4 py-3 text-lg text-left text-red-500"
+            >
+              Logout
+            </button>
+          </template>
         </div>
       </div>
     </transition>
@@ -154,6 +196,7 @@
 </template>
 
 <script setup>
+const { user, logout } = useAuth(); // Import auth state
 const { locale, locales, setLocale } = useI18n();
 const supportedLocales = computed(() => locales.value);
 const colorMode = useColorMode();
@@ -164,6 +207,16 @@ const isMobileOpen = ref(false);
 const toggleColorMode = () => {
   colorMode.preference = colorMode.value === "dark" ? "light" : "dark";
 };
+
+const authLink = computed(() => {
+  if (!user.value) return null;
+  return user.value.role === "admin" ? "/admin" : "/dashboard";
+});
+
+const authLabel = computed(() => {
+  if (!user.value) return null;
+  return user.value.role === "admin" ? "Admin Panel" : "Dashboard";
+});
 
 // Icons
 const SettingsIcon = () =>

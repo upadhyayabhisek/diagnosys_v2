@@ -3,7 +3,7 @@ from flask_cors import CORS
 import os
 from chatbot import predict_disease, get_recommendations 
 from database import create_user, verify_user
-from database import get_all_faqs, add_faq, update_faq_status, delete_faq_by_id, delete_multiple_faqs,update_faq_details
+from database import get_all_faqs, add_faq, update_faq_status, delete_faq_by_id, delete_multiple_faqs,update_faq_details,get_active_faqs
 from database import get_all_users, update_user_status, delete_user_by_id, delete_multiple_users
 from database import get_all_hospitals, add_hospital, update_hospital, delete_hospital_by_id, delete_multiple_hospitals
 from database import get_all_doctors,add_new_doctor,update_doctor_details,delete_doctor_record,bulk_delete_doctors
@@ -132,6 +132,10 @@ def bulk_remove_users():
 def fetch_faqs():
     return jsonify(get_all_faqs())
 
+@app.route("/api/faqs/active", methods=["GET"])
+def fetch_public_faqs():
+    return jsonify(get_active_faqs())
+ 
 @app.route("/faqs", methods=["POST"])
 def create_faq():
     data = request.json

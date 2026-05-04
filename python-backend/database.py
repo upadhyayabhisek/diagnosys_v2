@@ -75,6 +75,12 @@ def get_all_faqs():
     conn.close()
     return [dict(faq) for faq in faqs]
 
+def get_active_faqs():
+    conn = get_db_connection()
+    faqs = conn.execute("SELECT * FROM faqs WHERE status = 1 ORDER BY created_at DESC").fetchall()
+    conn.close()
+    return [dict(faq) for faq in faqs]
+
 def add_faq(question, answer, category, status=1):
     conn = get_db_connection()
     cursor = conn.cursor()
