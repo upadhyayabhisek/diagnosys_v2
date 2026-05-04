@@ -28,7 +28,7 @@
             </button>
           </transition>
           <button
-            @click="isModalOpen = true"
+            @click="openModal()"
             class="px-5 py-2 bg-[var(--text)] text-[var(--background)] rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[var(--primary)] hover:text-white transition-all flex items-center gap-2"
           >
             <Icon name="ph:plus-bold" class="text-sm" /> Add FAQ
@@ -105,6 +105,13 @@
                     />
                   </button>
                   <button
+                    @click="openModal(faq)"
+                    class="w-9 h-9 flex items-center justify-center rounded-xl border border-[var(--border)] text-[var(--text)] hover:bg-blue-500 hover:text-white transition-all"
+                    title="Edit FAQ"
+                  >
+                    <Icon name="ph:pencil-simple-bold" class="w-4 h-4" />
+                  </button>
+                  <button
                     @click="deleteFaq(faq.id)"
                     class="w-9 h-9 flex items-center justify-center rounded-xl border border-[var(--border)] text-red-500 hover:bg-red-500 hover:text-white transition-all"
                     title="Delete FAQ"
@@ -134,7 +141,7 @@
         >
           <div class="flex justify-between items-center">
             <h2 class="text-2xl font-black tracking-tighter uppercase">
-              New FAQ
+              {{ isEditing ? "Edit FAQ" : "New FAQ" }}
             </h2>
             <button
               @click="isModalOpen = false"
@@ -167,51 +174,132 @@
             </select>
           </div>
           <button
-            @click="addFaq"
+            @click="saveFaq"
             class="w-full py-4 mt-2 bg-[var(--primary)] text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:brightness-110 transition-all"
           >
-            Publish Question
+            {{ isEditing ? "Update Question" : "Publish Question" }}
           </button>
         </div>
       </div>
     </transition>
   </div>
 </template>
-
 <script setup>
 definePageMeta({ layout: "admin" });
 
-const isModalOpen = ref(false);
+const API_BASE = "http://localhost:5001/faqs";
+
+// State
+const faqs = ref([]);
 const selectedFaqs = ref([]);
+const isModalOpen = ref(false);
+const isEditing = ref(false);
+const currentEditId = ref(null);
 
-const form = ref({ question: "", answer: "", category: "" });
+const form = ref({
+  question: "",
+  answer: "",
+  category: "",
+});
 
-const faqs = ref([
-  {
-    id: 1,
-    question: "How do I request a prescription refill?",
-    answer:
-      "You can request a refill directly through the patient portal app under the 'Medications' tab, or by calling your partnered pharmacy.",
-    category: "Medical Records",
-    status: "Published",
-  },
-  {
-    id: 2,
-    question: "What insurance providers do you accept?",
-    answer:
-      "We accept most major providers including BlueCross, Medicare, and Aetna. Please check the network partners page for a full updated list.",
-    category: "Billing & Insurance",
-    status: "Published",
-  },
-  {
-    id: 3,
-    question: "How do I update my emergency contact?",
-    answer:
-      "Navigate to your profile settings in the top right corner. Select 'Personal Details' and scroll down to the Emergency Contact section.",
-    category: "General Support",
-    status: "Hidden",
-  },
-]);
+const fetchFaqs = async () => {
+  try {
+    const data = await $fetch(API_BASE);
+    faqs.value = data.map((f) => ({
+      ...f,
+      status: f.status === 1 ? "Published" : "Hidden",
+    }));
+  } catch (err) {
+    console.error("Failed to fetch FAQs:", err);
+  }
+};
+
+onMounted(() => fetchFaqs());
+
+const openModal = (faq = null) => {
+  if (faq) {
+    isEditing.value = true;
+    currentEditId.value = faq.id;
+    form.value = {
+      question: faq.question,
+      answer: faq.answer,
+      category: faq.category,
+    };
+  } else {
+    isEditing.value = false;
+    currentEditId.value = null;
+    form.value = { question: "", answer: "", category: "" };
+  }
+  isModalOpen.value = true;
+};
+
+const saveFaq = async () => {
+  if (!form.value.question || !form.value.answer) return;
+
+  const payload = {
+    question: form.value.question,
+    answer: form.value.answer,
+    category: form.value.category || "General Support",
+  };
+
+  try {
+    if (isEditing.value) {
+      await $fetch(`${API_BASE}/${currentEditId.value}`, {
+        method: "PUT",
+        body: payload,
+      });
+    } else {
+      await $fetch(API_BASE, {
+        method: "POST",
+        body: { ...payload, status: 1 },
+      });
+    }
+
+    isModalOpen.value = false;
+    await fetchFaqs();
+  } catch (err) {
+    alert("Error saving FAQ");
+    console.error(err);
+  }
+};
+
+const toggleStatus = async (faq) => {
+  const newStatusInt = faq.status === "Published" ? 0 : 1;
+  try {
+    await $fetch(`${API_BASE}/${faq.id}/status`, {
+      method: "PATCH",
+      body: { status: newStatusInt },
+    });
+    faq.status = newStatusInt === 1 ? "Published" : "Hidden";
+  } catch (err) {
+    alert("Could not update status");
+  }
+};
+
+const deleteFaq = async (id) => {
+  if (!confirm("DELETE THIS FAQ?")) return;
+  try {
+    await $fetch(`${API_BASE}/${id}`, { method: "DELETE" });
+    faqs.value = faqs.value.filter((f) => f.id !== id);
+    selectedFaqs.value = selectedFaqs.value.filter((sid) => sid !== id);
+  } catch (err) {
+    alert("Error deleting item");
+  }
+};
+
+const confirmBulkDelete = async () => {
+  if (!confirm(`DELETE ${selectedFaqs.value.length} FAQS?`)) return;
+  try {
+    await $fetch(`${API_BASE}/bulk-delete`, {
+      method: "POST",
+      body: { ids: selectedFaqs.value },
+    });
+    await fetchFaqs();
+    selectedFaqs.value = [];
+  } catch (err) {
+    alert("Bulk delete failed");
+  }
+};
 
 const statusClass = (status) => {
   const base =
@@ -225,37 +313,9 @@ const isAllSelected = computed(
   () =>
     selectedFaqs.value.length === faqs.value.length && faqs.value.length > 0,
 );
-const toggleAll = (e) =>
-  (selectedFaqs.value = e.target.checked ? faqs.value.map((f) => f.id) : []);
-const toggleStatus = (faq) => {
-  faq.status = faq.status === "Published" ? "Hidden" : "Published";
-};
 
-const addFaq = () => {
-  if (!form.value.question || !form.value.answer) return;
-  faqs.value.unshift({
-    id: Date.now(),
-    question: form.value.question,
-    answer: form.value.answer,
-    category: form.value.category || "General Support",
-    status: "Published",
-  });
-  form.value = { question: "", answer: "", category: "" };
-  isModalOpen.value = false;
-};
-
-const deleteFaq = (id) => {
-  if (confirm("DELETE THIS FAQ?")) {
-    faqs.value = faqs.value.filter((f) => f.id !== id);
-    selectedFaqs.value = selectedFaqs.value.filter((sid) => sid !== id);
-  }
-};
-
-const confirmBulkDelete = () => {
-  if (confirm(`DELETE ${selectedFaqs.value.length} FAQS?`)) {
-    faqs.value = faqs.value.filter((f) => !selectedFaqs.value.includes(f.id));
-    selectedFaqs.value = [];
-  }
+const toggleAll = (e) => {
+  selectedFaqs.value = e.target.checked ? faqs.value.map((f) => f.id) : [];
 };
 </script>
 

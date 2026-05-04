@@ -29,7 +29,8 @@
             </button>
           </transition>
           <button
-            class="px-4 py-2 bg-[var(--text)] text-[var(--background)] rounded-full text-xs font-bold uppercase tracking-widest"
+            @click="exportToCSV"
+            class="px-4 py-2 bg-[var(--text)] text-[var(--background)] rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[var(--primary)] hover:text-white transition-all flex items-center gap-2 shadow-xl"
           >
             Export
           </button>
@@ -126,32 +127,63 @@
 definePageMeta({ layout: "admin" });
 
 const selectedUsers = ref([]);
-const users = ref([
-  {
-    id: 1,
-    name: "Alex Thompson",
-    email: "alex@example.com",
-    status: "Active",
-    dob: "1992-05-14",
-    createdAt: "04/12/26",
-  },
-  {
-    id: 2,
-    name: "Sarah Chen",
-    email: "sarah.c@example.com",
-    status: "Pending",
-    dob: "1988-11-22",
-    createdAt: "04/14/26",
-  },
-  {
-    id: 3,
-    name: "Michael Ross",
-    email: "m.ross@example.com",
-    status: "Inactive",
-    dob: "1995-02-03",
-    createdAt: "04/15/26",
-  },
-]);
+const users = ref([]);
+const API_BASE = "http://localhost:5001/users";
+
+const fetchUsers = async () => {
+  try {
+    const data = await $fetch(API_BASE);
+    users.value = data.map((u) => ({
+      ...u,
+      dob: u.birthday || "N/A",
+      createdAt: new Date(u.created_at).toLocaleDateString(),
+      status: u.status === 1 ? "Active" : "Inactive",
+    }));
+  } catch (err) {
+    console.error("Failed to load users", err);
+  }
+};
+
+onMounted(() => fetchUsers());
+
+const toggleStatus = async (user) => {
+  const newStatusInt = user.status === "Active" ? 0 : 1;
+  try {
+    await $fetch(`${API_BASE}/${user.id}/status`, {
+      method: "PATCH",
+      body: { status: newStatusInt },
+    });
+    user.status = newStatusInt === 1 ? "Active" : "Inactive";
+  } catch (err) {
+    alert("Update failed");
+  }
+};
+
+const deleteUser = async (id) => {
+  if (!confirm("DELETE ACCOUNT PERMANENTLY?")) return;
+  try {
+    await $fetch(`${API_BASE}/${id}`, { method: "DELETE" });
+    users.value = users.value.filter((u) => u.id !== id);
+    selectedUsers.value = selectedUsers.value.filter((sid) => sid !== id);
+  } catch (err) {
+    alert("Delete failed");
+  }
+};
+
+const confirmBulkDelete = async () => {
+  if (!confirm(`DELETE ${selectedUsers.value.length} SELECTED ACCOUNTS?`))
+    return;
+  try {
+    await $fetch(`${API_BASE}/bulk-delete`, {
+      method: "POST",
+      body: { ids: selectedUsers.value },
+    });
+    await fetchUsers();
+    selectedUsers.value = [];
+  } catch (err) {
+    alert("Bulk delete failed");
+  }
+};
 
 const statusClass = (status) => {
   const base =
@@ -162,18 +194,42 @@ const statusClass = (status) => {
 };
 
 const isAllSelected = computed(
-  () => selectedUsers.value.length === users.value.length,
+  () =>
+    selectedUsers.value.length === users.value.length && users.value.length > 0,
 );
-const toggleAll = (e) =>
-  (selectedUsers.value = e.target.checked ? users.value.map((u) => u.id) : []);
 
-const toggleStatus = (user) => {
-  user.status = user.status === "Active" ? "Inactive" : "Active";
+const toggleAll = (e) => {
+  selectedUsers.value = e.target.checked ? users.value.map((u) => u.id) : [];
 };
 
-const deleteUser = (id) => {
-  if (confirm("DELETE ACCOUNT?")) {
-    users.value = users.value.filter((u) => u.id !== id);
-  }
+const exportToCSV = () => {
+  if (users.value.length === 0) return;
+  const headers = ["ID", "Name", "Email", "DOB", "Created At", "Status"];
+  const rows = users.value.map((user) => [
+    user.id,
+    user.name,
+    user.email,
+    user.dob,
+    user.createdAt,
+    user.status,
+  ]);
+  const csvContent = [
+    headers.join(","),
+    ...rows.map((row) => row.map((field) => `"${field}"`).join(",")),
+  ].join("\n");
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const link = document.createElement("a");
+  const url = URL.createObjectURL(blob);
+
+  link.setAttribute("href", url);
+  link.setAttribute(
+    "download",
+    `mediai_users_${new Date().toISOString().slice(0, 10)}.csv`,
+  );
+  link.style.visibility = "hidden";
+
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 };
 </script>

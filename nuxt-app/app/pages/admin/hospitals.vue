@@ -31,7 +31,7 @@
             </button>
           </transition>
           <button
-            @click="isModalOpen = true"
+            @click="openModal()"
             class="px-5 py-2 bg-[var(--text)] text-[var(--background)] rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[var(--primary)] hover:text-white transition-all flex items-center gap-2 shadow-xl"
           >
             <Icon name="ph:plus-bold" class="text-sm" /> Register
@@ -95,6 +95,7 @@
               class="flex justify-end gap-2 pt-4 border-t border-[var(--border)]/50"
             >
               <button
+                @click="openModal(hospital)"
                 class="w-9 h-9 flex items-center justify-center rounded-xl border border-[var(--border)] text-[var(--text)] hover:bg-[var(--primary)] hover:text-white transition-all"
                 title="Edit Profile"
               >
@@ -174,10 +175,10 @@
           </div>
 
           <button
-            @click="addHospital"
+            @click="saveHospital"
             class="w-full py-4 mt-2 bg-[var(--primary)] text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:brightness-110 transition-all"
           >
-            Confirm Registration
+            {{ isEditing ? "Update Partner" : "Confirm Registration" }}
           </button>
         </div>
       </div>
@@ -187,10 +188,15 @@
 
 <script setup>
 definePageMeta({ layout: "admin" });
+
+const API_BASE = "http://localhost:5001/hospitals";
+const hospitals = ref([]);
 const isModalOpen = ref(false);
+const isEditing = ref(false);
 const selectedHospitals = ref([]);
 
 const form = ref({
+  id: null,
   name: "",
   address: "",
   description: "",
@@ -198,78 +204,68 @@ const form = ref({
   image: "",
 });
 
-const hospitals = ref([
-  {
-    id: 1,
-    name: "St. Mary Renal Care",
-    address: "122 Health Blvd, NY",
-    image:
-      "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?q=80&w=400&h=300&auto=format&fit=crop",
-    description:
-      "Specialized in advanced kidney treatments and long-term dialysis management.",
-    tags: ["Renal", "Surgery", "Dialysis"],
-  },
-  {
-    id: 2,
-    name: "Apex Dental Clinic",
-    address: "45 Care Street, SF",
-    image:
-      "https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=400&h=300&auto=format&fit=crop",
-    description:
-      "Premier dental care offering everything from routine checkups to orthodontics.",
-    tags: ["Dental", "Orthodontics"],
-  },
-  {
-    id: 3,
-    name: "City General Hospital",
-    address: "900 Metro Ave, CHI",
-    image:
-      "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=400&h=300&auto=format&fit=crop",
-    description:
-      "Multi-disciplinary healthcare provider serving the area for over 50 years.",
-    tags: ["General", "Emergency"],
-  },
-]);
+const fetchHospitals = async () => {
+  const data = await $fetch(API_BASE);
+  hospitals.value = data.map((h) => ({
+    ...h,
+    tags: h.tags ? h.tags.split(",").map((t) => t.trim()) : [],
+  }));
+};
 
-const addHospital = () => {
+onMounted(() => fetchHospitals());
+const openModal = (hospital = null) => {
+  if (hospital) {
+    isEditing.value = true;
+    form.value = {
+      ...hospital,
+      tags: hospital.tags.join(", "),
+    };
+  } else {
+    isEditing.value = false;
+    form.value = {
+      id: null,
+      name: "",
+      address: "",
+      description: "",
+      tags: "",
+      image: "",
+    };
+  }
+  isModalOpen.value = true;
+};
+
+const saveHospital = async () => {
   if (!form.value.name || !form.value.address) return;
 
-  const newHospital = {
-    id: Date.now(),
-    name: form.value.name,
-    address: form.value.address,
-    description: form.value.description,
-    image:
-      form.value.image ||
-      "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=400",
-    tags: form.value.tags
-      ? form.value.tags.split(",").map((t) => t.trim())
-      : ["General"],
-  };
+  const payload = { ...form.value };
 
-  hospitals.value.unshift(newHospital);
-  form.value = { name: "", address: "", description: "", tags: "", image: "" };
+  if (isEditing.value) {
+    await $fetch(`${API_BASE}/${form.value.id}`, {
+      method: "PUT",
+      body: payload,
+    });
+  } else {
+    await $fetch(API_BASE, { method: "POST", body: payload });
+  }
+
+  fetchHospitals();
   isModalOpen.value = false;
 };
 
-const deleteHospital = (id) => {
-  if (confirm("REMOVE THIS PARTNERED HOSPITAL?")) {
-    hospitals.value = hospitals.value.filter((h) => h.id !== id);
-    selectedHospitals.value = selectedHospitals.value.filter(
-      (sid) => sid !== id,
-    );
-  }
+const deleteHospital = async (id) => {
+  if (!confirm("REMOVE THIS PARTNER?")) return;
+  await $fetch(`${API_BASE}/${id}`, { method: "DELETE" });
+  hospitals.value = hospitals.value.filter((h) => h.id !== id);
 };
 
-const confirmBulkDelete = () => {
-  if (
-    confirm(`PERMANENTLY DELETE ${selectedHospitals.value.length} PARTNERS?`)
-  ) {
-    hospitals.value = hospitals.value.filter(
-      (h) => !selectedHospitals.value.includes(h.id),
-    );
-    selectedHospitals.value = [];
-  }
+const confirmBulkDelete = async () => {
+  if (!confirm(`DELETE ${selectedHospitals.value.length} PARTNERS?`)) return;
+  await $fetch(`${API_BASE}/bulk-delete`, {
+    method: "POST",
+    body: { ids: selectedHospitals.value },
+  });
+  fetchHospitals();
+  selectedHospitals.value = [];
 };
 </script>
 

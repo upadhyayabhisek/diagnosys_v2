@@ -26,7 +26,7 @@
             </button>
           </transition>
           <button
-            @click="isModalOpen = true"
+            @click="openModal()"
             class="px-5 py-2 bg-[var(--text)] text-[var(--background)] rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[var(--primary)] hover:text-white transition-all flex items-center gap-2"
           >
             <Icon name="ph:plus-bold" class="text-sm" /> Register Doctor
@@ -97,6 +97,7 @@
               <td class="py-5 px-4 text-right">
                 <div class="flex justify-end gap-2">
                   <button
+                    @click="openModal(doc)"
                     class="w-9 h-9 flex items-center justify-center rounded-xl border border-[var(--border)] text-[var(--text)] hover:bg-[var(--primary)] hover:text-white transition-all"
                     title="Edit Profile"
                   >
@@ -135,7 +136,7 @@
               New Doctor
             </h2>
             <button
-              @click="isModalOpen = false"
+              @click="openModal()"
               class="text-[var(--subtext)] hover:text-[var(--text)] transition-colors"
             >
               <Icon name="ph:x-bold" class="text-xl" />
@@ -170,7 +171,7 @@
             />
           </div>
           <button
-            @click="addDoctor"
+            @click="saveDoctor"
             class="w-full py-4 mt-2 bg-[var(--primary)] text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:brightness-110 transition-all"
           >
             Add to Network
@@ -180,76 +181,129 @@
     </transition>
   </div>
 </template>
-
 <script setup>
 definePageMeta({ layout: "admin" });
 
-const isModalOpen = ref(false);
+// API Endpoint
+const API_BASE = "http://localhost:5001/doctors";
+
+// --- State Management ---
+const doctors = ref([]);
 const selectedDoctors = ref([]);
+const isModalOpen = ref(false);
+const isEditing = ref(false);
+const currentEditId = ref(null);
 
-const form = ref({ name: "", email: "", specialty: "", workplace: "" });
+const form = ref({
+  name: "",
+  email: "",
+  specialty: "",
+  workplace: "",
+});
 
-const doctors = ref([
-  {
-    id: 1,
-    name: "Marcus Webb",
-    email: "m.webb@stmary.org",
-    specialty: "Renal Surgery",
-    workplace: "St. Mary Renal Care",
-  },
-  {
-    id: 2,
-    name: "Elena Rostova",
-    email: "erostova@apexdental.com",
-    specialty: "Orthodontics",
-    workplace: "Apex Dental Clinic",
-  },
-  {
-    id: 3,
-    name: "James K. Vance",
-    email: "jvance@citygeneral.org",
-    specialty: "Cardiology",
-    workplace: "City General Hospital",
-  },
-]);
+// --- Actions ---
 
+// 1. Fetch Doctors from Backend
+const fetchDoctors = async () => {
+  try {
+    doctors.value = await $fetch(API_BASE);
+  } catch (err) {
+    console.error("Failed to load doctors:", err);
+  }
+};
+
+// Load data on mount
+onMounted(() => fetchDoctors());
+
+// 2. Open Modal (Reset for Add, Populate for Edit)
+const openModal = (doc = null) => {
+  if (doc) {
+    // EDIT MODE
+    isEditing.value = true;
+    currentEditId.value = doc.id;
+    form.value = {
+      name: doc.name,
+      email: doc.email,
+      specialty: doc.specialty,
+      workplace: doc.workplace,
+    };
+  } else {
+    // ADD MODE
+    isEditing.value = false;
+    currentEditId.value = null;
+    form.value = { name: "", email: "", specialty: "", workplace: "" };
+  }
+  isModalOpen.value = true;
+};
+
+// 3. Save (Unified logic for Add/Update)
+const saveDoctor = async () => {
+  if (!form.value.name || !form.value.specialty) return;
+
+  try {
+    if (isEditing.value) {
+      // Update existing record
+      await $fetch(`${API_BASE}/${currentEditId.value}`, {
+        method: "PUT",
+        body: form.value,
+      });
+    } else {
+      // Create new record
+      await $fetch(API_BASE, {
+        method: "POST",
+        body: form.value,
+      });
+    }
+
+    isModalOpen.value = false;
+    await fetchDoctors(); // Refresh list
+  } catch (err) {
+    alert("Error saving doctor details. Please check if the email is unique.");
+    console.error(err);
+  }
+};
+
+// 4. Delete Single
+const deleteDoctor = async (id) => {
+  if (!confirm("REMOVE DOCTOR FROM NETWORK?")) return;
+
+  try {
+    await $fetch(`${API_BASE}/${id}`, { method: "DELETE" });
+    // Update local state for immediate feedback
+    doctors.value = doctors.value.filter((d) => d.id !== id);
+    selectedDoctors.value = selectedDoctors.value.filter((sid) => sid !== id);
+  } catch (err) {
+    alert("Could not remove doctor.");
+  }
+};
+
+// 5. Bulk Delete
+const confirmBulkDelete = async () => {
+  if (!confirm(`REMOVE ${selectedDoctors.value.length} DOCTORS?`)) return;
+
+  try {
+    await $fetch(`${API_BASE}/bulk-delete`, {
+      method: "POST",
+      body: { ids: selectedDoctors.value },
+    });
+    await fetchDoctors();
+    selectedDoctors.value = [];
+  } catch (err) {
+    alert("Bulk removal failed.");
+  }
+};
+
+// --- Selection Logic ---
 const isAllSelected = computed(
   () =>
     selectedDoctors.value.length === doctors.value.length &&
     doctors.value.length > 0,
 );
-const toggleAll = (e) =>
-  (selectedDoctors.value = e.target.checked
+
+const toggleAll = (e) => {
+  selectedDoctors.value = e.target.checked
     ? doctors.value.map((d) => d.id)
-    : []);
-
-const addDoctor = () => {
-  if (!form.value.name || !form.value.specialty) return;
-  doctors.value.unshift({
-    id: Date.now(),
-    name: form.value.name,
-    email: form.value.email || "pending@network.org",
-    specialty: form.value.specialty,
-    workplace: form.value.workplace || "Unassigned",
-  });
-  form.value = { name: "", email: "", specialty: "", workplace: "" };
-  isModalOpen.value = false;
-};
-
-const deleteDoctor = (id) => {
-  if (confirm("REMOVE DOCTOR FROM NETWORK?")) {
-    doctors.value = doctors.value.filter((d) => d.id !== id);
-    selectedDoctors.value = selectedDoctors.value.filter((sid) => sid !== id);
-  }
-};
-
-const confirmBulkDelete = () => {
-  if (confirm(`REMOVE ${selectedDoctors.value.length} DOCTORS?`)) {
-    doctors.value = doctors.value.filter(
-      (d) => !selectedDoctors.value.includes(d.id),
-    );
-    selectedDoctors.value = [];
-  }
+    : [];
 };
 </script>
 
