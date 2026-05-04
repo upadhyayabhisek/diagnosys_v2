@@ -74,7 +74,14 @@ const handleSubmit = async () => {
       errorMsg.value = data?.error || "Login failed.";
     }
   } catch (err: any) {
-    errorMsg.value = err.data?.error || "An error occurred. Please try again.";
+    const backendError = err.data?.error || err.data?.message;
+
+    if (backendError === "account_disabled" || err.status === 403) {
+      errorMsg.value =
+        "Your account has been disabled. Please contact the administrator.";
+    } else {
+      errorMsg.value = backendError || "An error occurred. Please try again.";
+    }
   } finally {
     loading.value = false;
   }

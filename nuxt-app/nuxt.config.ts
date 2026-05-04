@@ -3,7 +3,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { resolve } from 'path';
 
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/i18n', '@nuxtjs/color-mode'],
+  modules: ['@nuxtjs/i18n', '@nuxtjs/color-mode', '@nuxt/icon'],
   colorMode: {
     classSuffix: '',
     preference: 'system',
@@ -37,7 +37,7 @@ export default defineNuxtConfig({
     defaultLocale: 'en',
     locales: [
       { code: 'en', file: 'en.json', name: 'English' },
-      { code: 'np', file: 'np.json', name: 'नेपाली' },
+      // { code: 'np', file: 'np.json', name: 'नेपाली' },
     ],
     detectBrowserLanguage: {
       useCookie: true,

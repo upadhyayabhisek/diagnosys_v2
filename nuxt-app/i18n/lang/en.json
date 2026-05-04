@@ -95,5 +95,13 @@
         "emergencyInfo": "Emergency Info",
         "disclaimer": "Disclaimer: MediAI is an information-only platform powered by machine learning. It is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
         "copyright": "© 2026 MediAI Health Systems Inc."
+    },
+    "adminbar": {
+        "overview": "Overview",
+        "users": "User Management",
+        "hospitals": "Partner Hospitals",
+        "doctors": "Medical Staff",
+        "faq": "FAQs",
+        "analytics": "Feature Distribution"
     }
 }
