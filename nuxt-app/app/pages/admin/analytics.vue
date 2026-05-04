@@ -2,7 +2,7 @@
   <div>
     <header class="mb-12">
       <p
-        class="text-[10px] font-black tracking-[0.2em] text-[var(--primary)] mb-2 uppercase"
+        class="text-[10px] font-black tracking-[0.2em] text-[var(--primary)] mb-2"
       >
         Model Training Data
       </p>
