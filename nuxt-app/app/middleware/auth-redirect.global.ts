@@ -1,7 +1,7 @@
 export default defineNuxtRouteMiddleware((to) => {
     const user = useCookie<any>('user_data');
 
-    const publicRoutes = ['/', '/login', '/signup'];
+    const publicRoutes = ['/login', '/signup'];
 
     if (!user.value) {
         if (to.path === '/admin' || to.path === '/dashboard') {
