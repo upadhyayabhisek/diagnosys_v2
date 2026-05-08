@@ -71,7 +71,7 @@
               <td class="py-5 px-4">
                 <div>
                   <p class="text-sm font-bold tracking-tight">
-                    Dr. {{ doc.name }}
+                    {{ doc.name }}
                   </p>
                   <p class="text-[10px] text-[var(--subtext)] font-medium">
                     {{ doc.email }}
@@ -181,13 +181,10 @@
     </transition>
   </div>
 </template>
+
 <script setup>
 definePageMeta({ layout: "admin" });
-
-// API Endpoint
 const API_BASE = "http://localhost:5001/doctors";
-
-// --- State Management ---
 const doctors = ref([]);
 const selectedDoctors = ref([]);
 const isModalOpen = ref(false);
@@ -200,10 +197,6 @@ const form = ref({
   specialty: "",
   workplace: "",
 });
-
-// --- Actions ---
-
-// 1. Fetch Doctors from Backend
 const fetchDoctors = async () => {
   try {
     doctors.value = await $fetch(API_BASE);
@@ -212,13 +205,9 @@ const fetchDoctors = async () => {
   }
 };
 
-// Load data on mount
 onMounted(() => fetchDoctors());
-
-// 2. Open Modal (Reset for Add, Populate for Edit)
 const openModal = (doc = null) => {
   if (doc) {
-    // EDIT MODE
     isEditing.value = true;
     currentEditId.value = doc.id;
     form.value = {
@@ -228,27 +217,22 @@ const openModal = (doc = null) => {
       workplace: doc.workplace,
     };
   } else {
-    // ADD MODE
     isEditing.value = false;
     currentEditId.value = null;
     form.value = { name: "", email: "", specialty: "", workplace: "" };
   }
   isModalOpen.value = true;
 };
-
-// 3. Save (Unified logic for Add/Update)
 const saveDoctor = async () => {
   if (!form.value.name || !form.value.specialty) return;
 
   try {
     if (isEditing.value) {
-      // Update existing record
       await $fetch(`${API_BASE}/${currentEditId.value}`, {
         method: "PUT",
         body: form.value,
       });
     } else {
-      // Create new record
       await $fetch(API_BASE, {
         method: "POST",
         body: form.value,
@@ -256,28 +240,23 @@ const saveDoctor = async () => {
     }
 
     isModalOpen.value = false;
-    await fetchDoctors(); // Refresh list
+    await fetchDoctors();
   } catch (err) {
     alert("Error saving doctor details. Please check if the email is unique.");
     console.error(err);
   }
 };
-
-// 4. Delete Single
 const deleteDoctor = async (id) => {
   if (!confirm("REMOVE DOCTOR FROM NETWORK?")) return;
 
   try {
     await $fetch(`${API_BASE}/${id}`, { method: "DELETE" });
-    // Update local state for immediate feedback
     doctors.value = doctors.value.filter((d) => d.id !== id);
     selectedDoctors.value = selectedDoctors.value.filter((sid) => sid !== id);
   } catch (err) {
     alert("Could not remove doctor.");
   }
 };
-
-// 5. Bulk Delete
 const confirmBulkDelete = async () => {
   if (!confirm(`REMOVE ${selectedDoctors.value.length} DOCTORS?`)) return;
 
@@ -292,8 +271,6 @@ const confirmBulkDelete = async () => {
     alert("Bulk removal failed.");
   }
 };
-
-// --- Selection Logic ---
 const isAllSelected = computed(
   () =>
     selectedDoctors.value.length === doctors.value.length &&

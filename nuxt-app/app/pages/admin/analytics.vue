@@ -6,9 +6,7 @@
       >
         Model Training Data
       </p>
-      <h1 class="text-5xl font-black tracking-tight mb-4">
-        Feature <span class="opacity-30">Analysis</span>
-      </h1>
+      <h1 class="text-5xl font-black tracking-tight mb-4">Feature Analysis</h1>
     </header>
 
     <!-- Model Stats -->
