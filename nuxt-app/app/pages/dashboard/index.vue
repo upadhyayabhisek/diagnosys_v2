@@ -33,7 +33,7 @@ const stats = [
   <div>
     <header class="mb-12">
       <p
-        class="text-[10px] font-black tracking-[0.2em] text-[var(--primary)] mb-2 uppercase"
+        class="text-[10px] font-black tracking-[0.2em] text-[var(--primary)] mb-2"
       >
         Patient Dashboard
       </p>
@@ -49,7 +49,7 @@ const stats = [
         :key="stat.label"
         class="p-8 bg-[var(--card)] border border-[var(--border)] rounded-[2.5rem] transition-all"
       >
-        <h3 class="text-[10px] font-bold uppercase text-[var(--subtext)] mb-1">
+        <h3 class="text-[10px] font-bold text-[var(--subtext)] mb-1">
           {{ stat.label }}
         </h3>
         <p class="text-3xl font-black tracking-tight mb-2">{{ stat.value }}</p>

@@ -136,7 +136,7 @@
               New Doctor
             </h2>
             <button
-              @click="openModal()"
+              @click="isModalOpen = false"
               class="text-[var(--subtext)] hover:text-[var(--text)] transition-colors"
             >
               <Icon name="ph:x-bold" class="text-xl" />

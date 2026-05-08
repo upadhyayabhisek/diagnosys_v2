@@ -8,7 +8,6 @@ definePageMeta({
 const { user } = useAuth();
 const firstName = computed(() => user.value?.name?.split(" ")[0] || "User");
 
-// --- Form State ---
 const form = ref({
   age: 24,
   gender: "male",
@@ -24,7 +23,6 @@ const form = ref({
 const isAnalyzing = ref(false);
 const recommendation = ref(null);
 
-// --- Metrics Logic ---
 const bmi = computed(() => {
   if (!form.value.weight || !form.value.height) return "0.0";
   return (form.value.weight / (form.value.height * form.value.height)).toFixed(
@@ -36,7 +34,6 @@ const estimatedMaxBPM = computed(() => 220 - form.value.age);
 
 const handlePredict = async () => {
   isAnalyzing.value = true;
-  // Simulated ML model response
   setTimeout(() => {
     recommendation.value = {
       workout_type: form.value.goal,
@@ -55,15 +52,13 @@ const handlePredict = async () => {
 
 <template>
   <div class="max-w-6xl mx-auto pb-20">
-    <!-- Header -->
     <header class="mb-12">
       <div class="flex items-center gap-4 mb-2">
-        <NuxtLink
-          to="/dashboard"
-          class="text-[var(--primary)] text-[10px] font-black uppercase tracking-[0.3em] hover:opacity-70 transition-all"
+        <p
+          class="text-[10px] font-black tracking-[0.2em] text-[var(--primary)] mb-2"
         >
-          &larr; Back
-        </NuxtLink>
+          Personalised Plan
+        </p>
       </div>
       <h1 class="text-5xl font-black tracking-tight">
         Optimize Your <br /><span class="opacity-50">Performance</span>
@@ -71,7 +66,6 @@ const handlePredict = async () => {
     </header>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-      <!-- Input Section -->
       <section class="lg:col-span-5 space-y-6 flex flex-col">
         <div
           class="bg-[var(--card)] border border-[var(--border)] rounded-[3rem] p-8 flex-grow"
@@ -170,7 +164,6 @@ const handlePredict = async () => {
           </div>
         </div>
 
-        <!-- Metric Cards -->
         <div class="grid grid-cols-2 gap-4">
           <div
             class="p-6 bg-[var(--primary)]/5 border border-[var(--border)] rounded-[2.5rem]"
@@ -194,8 +187,6 @@ const handlePredict = async () => {
           </div>
         </div>
       </section>
-
-      <!-- Results Section -->
       <section class="lg:col-span-7">
         <transition name="fade" mode="out-in">
           <div
@@ -267,7 +258,6 @@ const handlePredict = async () => {
             </div>
           </div>
 
-          <!-- Empty State -->
           <div
             v-else
             class="h-full border-2 border-dashed border-[var(--border)] rounded-[3rem] flex flex-col items-center justify-center p-12 text-center opacity-40"
