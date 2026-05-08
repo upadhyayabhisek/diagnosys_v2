@@ -43,12 +43,12 @@ const navItems = computed(() => [
   {
     id: "history",
     label: "Report History",
-    path: "/dashboard/predict/history",
+    path: "/dashboard/history",
     icon: "M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25",
   },
   {
     id: "records",
-    label: "Medical Records",
+    label: "Medical Records & Trends",
     path: "/dashboard/records",
     icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z",
   },

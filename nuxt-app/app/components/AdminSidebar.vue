@@ -1,17 +1,27 @@
 <script setup lang="ts">
-import { computed, h, ref } from "vue";
+import { computed, h, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 const { t, locale, locales, setLocale } = useI18n();
 const colorMode = useColorMode();
 const isSettingsOpen = ref(false);
+const isMobileMenuOpen = ref(false); // Mobile toggle state
 
 const { logout } = useAuth();
 const route = useRoute();
+
 const activeTab = computed(() => {
   if (route.path === "/admin" || route.path === "/admin/") return "overview";
   return route.path.split("/").pop() || "overview";
 });
+
+// Close menu when navigating
+watch(
+  () => route.path,
+  () => {
+    isMobileMenuOpen.value = false;
+  },
+);
 
 const toggleColorMode = () => {
   colorMode.preference = colorMode.value === "dark" ? "light" : "dark";
@@ -68,7 +78,6 @@ const SunIcon = () =>
       }),
     ],
   );
-
 const MoonIcon = () =>
   h(
     "svg",
@@ -88,63 +97,107 @@ const MoonIcon = () =>
     ],
   );
 
-const flags = {
+const flags: Record<string, any> = {
   en: () =>
-    h("svg", { viewBox: "0 0 24 24", width: "24", height: "24" }, [
-      h("g", [
-        h("path", {
-          d: "M12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.373 12 12 12Z",
-          fill: "#F0F0F0",
-        }),
-        h("path", {
-          d: "M2.48 4.693A11.956 11.956 0 0 0 .413 8.868h6.243L2.48 4.693Zm21.106 4.176a11.957 11.957 0 0 0-2.067-4.176L17.344 8.87h6.242ZM.413 15.13a11.957 11.957 0 0 0 2.067 4.176l4.176-4.176H.413ZM19.305 2.48A11.957 11.957 0 0 0 15.13.412v6.243l4.175-4.175ZM4.693 21.518a11.957 11.957 0 0 0 4.176 2.067v-6.243l-4.176 4.176ZM8.869.412A11.957 11.957 0 0 0 4.693 2.48L8.87 6.655V.412Zm6.261 23.173a11.96 11.96 0 0 0 4.175-2.067l-4.175-4.176v6.243Zm2.214-8.455 4.175 4.176a11.957 11.957 0 0 0 2.067-4.176h-6.242Z",
-          fill: "#0052B4",
-        }),
-        h("path", {
-          d: "M23.898 10.435H13.565V.102a12.12 12.12 0 0 0-3.13 0v10.333H.102a12.12 12.12 0 0 0 0 3.13h10.333v10.333a12.12 12.12 0 0 0 3.13 0V13.565h10.333a12.12 12.12 0 0 0 0-3.13Z",
-          fill: "#D80027",
-        }),
-        h("path", {
-          d: "m15.13 15.131 5.356 5.355c.246-.246.48-.503.705-.77l-4.584-4.585H15.13Zm-6.26 0-5.355 5.355c.246.246.503.481.77.705l4.585-4.584V15.13Zm0-6.261v-.001L3.515 3.514a12.03 12.03 0 0 0-.705.77L7.394 8.87H8.87Zm6.26 0 5.356-5.355a12.023 12.023 0 0 0-.77-.705L15.13 7.394V8.87Z",
-          fill: "#D80027",
-        }),
-      ]),
+    h("svg", { viewBox: "0 0 24 24", class: "w-5 h-5" }, [
+      h("path", {
+        d: "M12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.373 12 12 12Z",
+        fill: "#F0F0F0",
+      }),
+      h("path", {
+        d: "M23.898 10.435H13.565V.102a12.12 12.12 0 0 0-3.13 0v10.333H.102a12.12 12.12 0 0 0 0 3.13h10.333v10.333a12.12 12.12 0 0 0 3.13 0V13.565h10.333a12.12 12.12 0 0 0 0-3.13Z",
+        fill: "#D80027",
+      }),
     ]),
   np: () =>
-    h("svg", { viewBox: "0 0 24 24", width: "24", height: "24" }, [
-      h("g", [
-        h("path", {
-          d: "M12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.373 12 12 12Z",
-          fill: "#F0F0F0",
-        }),
-        h("path", {
-          d: "M23.93 13.304 10.77.062c-.594.06-1.175.164-1.74.308C3.839 1.692 0 12 0 12s16.8 11.242 18.716 9.945c.384-.26.752-.54 1.102-.842l-7.8-7.799H23.93Z",
-          fill: "#0052B4",
-        }),
-        h("path", {
-          d: "M20.87 12 9.198.329C3.923 1.591 0 6.337 0 11.999c0 6.628 5.373 12 12 12 2.514 0 4.847-.773 6.775-2.094L8.87 11.999h12Z",
-          fill: "#D80027",
-        }),
-        h("path", {
-          d: "m11.413 17.717-1.466-.689.78-1.42-1.591.305-.202-1.608-1.108 1.183-1.109-1.183-.201 1.608-1.592-.304.78 1.419-1.465.69 1.466.689-.78 1.419 1.59-.304.202 1.607 1.109-1.182 1.108 1.182.202-1.607 1.591.304-.78-1.42 1.466-.689Zm-.979-11.062-1.066-.501.568-1.033-1.158.222-.146-1.17-.806.86-.807-.86-.146 1.17-1.158-.222.568 1.033-1.066.5 2.609.523 2.608-.522Z",
-          fill: "#F0F0F0",
-        }),
-        h("path", {
-          d: "M10.957 6.655a3.13 3.13 0 0 1-6.26 0",
-          fill: "#F0F0F0",
-        }),
-      ]),
+    h("svg", { viewBox: "0 0 24 24", class: "w-5 h-5" }, [
+      h("path", {
+        d: "M12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.373 12 12 12Z",
+        fill: "#F0F0F0",
+      }),
+      h("path", {
+        d: "M20.87 12 9.198.329C3.923 1.591 0 6.337 0 11.999c0 6.628 5.373 12 12 12 2.514 0 4.847-.773 6.775-2.094L8.87 11.999h12Z",
+        fill: "#D80027",
+      }),
     ]),
 };
 </script>
 
 <template>
-  <aside
-    class="w-72 border-r border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-xl flex flex-col p-6"
+  <!-- 1. Mobile Top Bar (Admin Style) -->
+  <div
+    class="lg:hidden flex items-center justify-between p-4 border-b border-[var(--border)] bg-[var(--card)] sticky top-0 z-[60]"
   >
+    <div class="flex items-center gap-3">
+      <div
+        class="w-8 h-8 bg-[var(--primary)] rounded-lg flex items-center justify-center text-white font-black text-xs"
+      >
+        M
+      </div>
+      <h2 class="text-lg font-black tracking-tighter">
+        MediAI <span class="text-[var(--primary)]">Pro</span>
+      </h2>
+    </div>
+    <button
+      @click="isMobileMenuOpen = true"
+      class="p-2 bg-[var(--border)]/30 rounded-xl"
+    >
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2.5"
+          d="M4 6h16M4 12h16m-7 6h7"
+        />
+      </svg>
+    </button>
+  </div>
+
+  <!-- 2. Mobile Overlay -->
+  <transition name="fade">
+    <div
+      v-if="isMobileMenuOpen"
+      @click="isMobileMenuOpen = false"
+      class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[70] lg:hidden"
+    ></div>
+  </transition>
+
+  <!-- 3. Sidebar (Admin Drawer) -->
+  <aside
+    :class="[
+      'fixed inset-y-0 left-0 z-[80] w-72 border-r border-[var(--border)] bg-[var(--card)] lg:bg-[var(--card)]/50 backdrop-blur-xl flex flex-col p-6 h-screen transition-transform duration-300 lg:translate-x-0 lg:static',
+      isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full',
+    ]"
+  >
+    <!-- Close Button (Mobile Only) -->
+    <button
+      @click="isMobileMenuOpen = false"
+      class="lg:hidden absolute top-6 right-6 p-2 rounded-xl bg-[var(--border)]/30"
+    >
+      <svg
+        class="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="3"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+
+    <!-- Brand Logo -->
     <div class="mb-10 px-2">
       <div
-        class="w-10 h-10 bg-[var(--primary)] rounded-xl mb-4 flex items-center justify-center text-white font-black"
+        class="w-10 h-10 bg-[var(--primary)] rounded-xl mb-4 flex items-center justify-center text-white font-black shadow-lg shadow-[var(--primary)]/20"
       >
         M
       </div>
@@ -153,7 +206,8 @@ const flags = {
       </h2>
     </div>
 
-    <nav class="flex-1 space-y-2">
+    <!-- Navigation -->
+    <nav class="flex-1 space-y-2 overflow-y-auto pr-2 custom-scrollbar">
       <NuxtLink
         v-for="item in navItems"
         :key="item.id"
@@ -182,6 +236,7 @@ const flags = {
       </NuxtLink>
     </nav>
 
+    <!-- Footer Settings & Logout -->
     <div class="mt-auto pt-6 border-t border-[var(--border)] space-y-2">
       <div class="relative px-2">
         <button
@@ -215,30 +270,26 @@ const flags = {
             </svg>
             <span>Settings</span>
           </div>
-          <span
+          <svg
             :class="{ 'rotate-180': isSettingsOpen }"
-            class="transition-transform duration-300 text-xs"
+            class="w-4 h-4 transition-transform duration-300"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
           >
-            <svg
-              class="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M19 9l-7 7-7-7"
-                stroke-width="3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </span>
+            <path
+              d="M19 9l-7 7-7-7"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
         </button>
 
         <transition name="pop-up">
           <div
             v-if="isSettingsOpen"
-            class="absolute bottom-full left-0 mb-3 w-full p-2 bg-[var(--card)] border-2 border-[var(--border)] rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.2)] z-50"
+            class="absolute bottom-full left-0 mb-3 w-full p-2 bg-[var(--card)] border-2 border-[var(--border)] rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.2)] z-[90]"
           >
             <div
               class="px-3 py-2 text-[10px] font-black uppercase tracking-widest text-[var(--subtext)]"
@@ -253,10 +304,9 @@ const flags = {
                 :is="colorMode.value === 'dark' ? SunIcon : MoonIcon"
                 class="w-4 h-4"
               />
-              <span>
-                Switch to
-                {{ colorMode.value === "dark" ? "Light" : "Dark" }}
-              </span>
+              <span>{{
+                colorMode.value === "dark" ? "Light Mode" : "Dark Mode"
+              }}</span>
             </button>
             <div class="h-[1px] bg-[var(--border)] my-3 mx-2"></div>
             <div
@@ -272,7 +322,7 @@ const flags = {
                 :class="[
                   'w-full flex items-center gap-3 p-3 text-xs rounded-xl transition-all border',
                   locale === lang.code
-                    ? 'bg-[var(--primary)] border-[var(--primary)] text-white shadow-md font-black'
+                    ? 'bg-[var(--primary)] border-[var(--primary)] text-white font-black'
                     : 'bg-transparent border-transparent text-[var(--subtext)] hover:bg-[var(--background)] hover:border-[var(--border)]',
                 ]"
               >
@@ -284,7 +334,7 @@ const flags = {
         </transition>
       </div>
 
-      <div class="px-2">
+      <div class="px-2 pb-2 lg:pb-0">
         <button
           @click="logout"
           class="w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-500 font-bold text-sm border border-transparent hover:border-red-500/20 rounded-2xl transition-all"
@@ -308,3 +358,32 @@ const flags = {
     </div>
   </aside>
 </template>
+
+<style scoped>
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 10px;
+}
+
+.pop-up-enter-active,
+.pop-up-leave-active {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.pop-up-enter-from,
+.pop-up-leave-to {
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
