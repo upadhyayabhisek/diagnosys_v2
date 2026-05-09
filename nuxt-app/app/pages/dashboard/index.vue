@@ -27,6 +27,15 @@ const stats = [
     color: "text-[var(--primary)]",
   },
 ];
+
+const { data: savedPlan, pending } = await useFetch(
+  `http://localhost:5001/get-workout-plan`,
+  {
+    params: { email: user.value?.email },
+    watch: [user],
+  },
+);
+const exercises = computed(() => savedPlan.value?.data?.exercises || []);
 </script>
 
 <template>
@@ -42,7 +51,6 @@ const stats = [
       </h1>
     </header>
 
-    <!-- Health Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
       <div
         v-for="stat in stats"
@@ -64,49 +72,88 @@ const stats = [
       </div>
     </div>
 
-    <!-- Main Content Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      <!-- Exercise Preview -->
       <section
         class="bg-[var(--card)] border border-[var(--border)] rounded-[3rem] p-8"
       >
         <div class="flex justify-between items-center mb-8">
-          <h2 class="text-xl font-black">Daily Exercise</h2>
+          <div>
+            <h2 class="text-xl font-black">Daily Exercise</h2>
+            <p
+              v-if="savedPlan?.data"
+              class="text-[10px] font-bold text-[var(--primary)] uppercase"
+            >
+              Target: {{ savedPlan.data.target }}
+            </p>
+          </div>
           <NuxtLink
             to="/dashboard/exercise"
             class="text-[var(--primary)] text-xs font-bold"
-            >Full Plan &rarr;</NuxtLink
           >
+            Full Plan &rarr;
+          </NuxtLink>
         </div>
+
         <div class="space-y-4">
-          <div
-            v-for="ex in ['Morning Yoga', 'Brisk Walking']"
-            :key="ex"
-            class="flex items-center gap-4 p-4 rounded-2xl bg-[var(--background)] border border-[var(--border)]"
-          >
+          <!-- Loading State -->
+          <div v-if="pending" class="animate-pulse space-y-4">
             <div
-              class="w-10 h-10 rounded-xl bg-[var(--primary)] text-white flex items-center justify-center"
-            >
-              <svg
-                class="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              v-for="i in 2"
+              :key="i"
+              class="h-16 bg-[var(--background)] rounded-2xl"
+            ></div>
+          </div>
+
+          <!-- Empty State -->
+          <div
+            v-else-if="exercises.length === 0"
+            class="py-10 text-center opacity-50"
+          >
+            <p class="text-xs font-bold">No plan saved yet.</p>
+          </div>
+
+          <!-- Dynamic Exercises -->
+          <div
+            v-for="ex in exercises.slice(0, 3)"
+            :key="ex.name"
+            class="flex items-center justify-between p-4 rounded-2xl bg-[var(--background)] border border-[var(--border)]"
+          >
+            <div class="flex items-center gap-4">
+              <div
+                class="w-10 h-10 rounded-xl bg-[var(--primary)] text-white flex items-center justify-center"
               >
-                <path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-width="2" />
-              </svg>
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-width="2" />
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm font-bold">{{ ex.name }}</p>
+                <p class="text-[10px] text-[var(--subtext)]">
+                  {{ ex.sets }} • ~{{ ex.calories }} kcal
+                </p>
+              </div>
             </div>
-            <div>
-              <p class="text-sm font-bold">{{ ex }}</p>
-              <p class="text-[10px] text-[var(--subtext)]">
-                20 Minutes • Medium Intensity
-              </p>
-            </div>
+          </div>
+
+          <!-- Summary footer if plan exists -->
+          <div
+            v-if="savedPlan?.data"
+            class="pt-4 mt-4 border-t border-[var(--border)] flex justify-between items-center"
+          >
+            <span class="text-[9px] font-black uppercase text-[var(--subtext)]"
+              >Total Burn</span
+            >
+            <span class="text-lg font-black text-[var(--primary)]"
+              >{{ savedPlan.data.total_calories }} KCAL</span
+            >
           </div>
         </div>
       </section>
-
-      <!-- Recent Reports -->
       <section
         class="bg-[var(--card)] border border-[var(--border)] rounded-[3rem] p-8"
       >

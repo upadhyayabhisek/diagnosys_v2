@@ -34,19 +34,53 @@ const estimatedMaxBPM = computed(() => 220 - form.value.age);
 
 const handlePredict = async () => {
   isAnalyzing.value = true;
-  setTimeout(() => {
-    recommendation.value = {
-      workout_type: form.value.goal,
-      target: form.value.target_muscle,
-      exercises: [
-        { name: "Deadlifts", sets: "3 x 8", calories: 120 },
-        { name: "Overhead Press", sets: "4 x 10", calories: 85 },
-        { name: "Plank Holds", sets: "3 x 60s", calories: 30 },
-      ],
-      expected_burn: 450,
-    };
+  try {
+    const data = await $fetch("http://localhost:5001/recommend-workout", {
+      method: "POST",
+      body: {
+        difficulty: form.value.experience_level,
+        target_muscle: form.value.target_muscle,
+        weight: form.value.weight,
+      },
+    });
+
+    recommendation.value = data;
+  } catch (e) {
+    console.error("Prediction failed", e);
+  } finally {
     isAnalyzing.value = false;
-  }, 1500);
+  }
+};
+
+const isSaving = ref(false);
+const saveSuccess = ref(false);
+const handleAddToPlan = async () => {
+  if (!user.value?.email) return alert("Please log in first!");
+
+  isSaving.value = true;
+  saveSuccess.value = false;
+
+  try {
+    const response = await $fetch("http://localhost:5001/save-workout", {
+      method: "POST",
+      body: {
+        email: user.value.email,
+        difficulty: form.value.experience_level,
+        recommendation: recommendation.value,
+      },
+    });
+
+    if (response.status === "success") {
+      saveSuccess.value = true;
+      setTimeout(() => {
+        saveSuccess.value = false;
+      }, 3000);
+    }
+  } catch (e) {
+    console.error("Save error:", e);
+  } finally {
+    isSaving.value = false;
+  }
 };
 </script>
 
@@ -197,7 +231,6 @@ const handlePredict = async () => {
                   class="group flex items-center justify-between p-6 rounded-[2rem] bg-[var(--background)] border border-[var(--border)] hover:border-[var(--primary)] transition-all"
                 >
                   <div class="flex items-center gap-4">
-                    <div class="w-2 h-2 rounded-full bg-[var(--primary)]"></div>
                     <div>
                       <p class="font-black text-sm">{{ exercise.name }}</p>
                       <p
@@ -233,9 +266,42 @@ const handlePredict = async () => {
                 </p>
               </div>
               <button
-                class="px-8 py-4 bg-[var(--text)] text-[var(--card)] hover:bg-[var(--primary)] hover:text-white transition-all rounded-2xl text-[10px] font-black uppercase tracking-widest"
+                @click="handleAddToPlan"
+                :disabled="isSaving || saveSuccess"
+                class="px-8 py-4 transition-all rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center gap-3"
+                :class="[
+                  saveSuccess
+                    ? 'bg-green-500 text-white'
+                    : 'bg-[var(--text)] text-[var(--card)] hover:bg-[var(--primary)] hover:text-white',
+                ]"
               >
-                Add to Daily Plan
+                <span
+                  v-if="isSaving"
+                  class="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin"
+                ></span>
+                <svg
+                  v-if="saveSuccess"
+                  class="w-3 h-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="3"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span>
+                  {{
+                    isSaving
+                      ? "Syncing..."
+                      : saveSuccess
+                        ? "Plan Updated"
+                        : "Add to Daily Plan"
+                  }}
+                </span>
               </button>
             </div>
           </div>
