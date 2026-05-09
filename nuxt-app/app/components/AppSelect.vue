@@ -79,7 +79,7 @@ onUnmounted(() => window.removeEventListener("click", handleClickOutside));
               class="w-full text-left px-4 py-3 text-xs rounded-xl transition-all flex items-center justify-between"
               :class="
                 modelValue === option
-                  ? 'bg-[var(--primary)]/10 text-[var(--primary)] font-black'
+                  ? ' text-[var(--primary)] font-black'
                   : 'text-[var(--subtext)] hover:text-[var(--text)] hover:bg-[var(--background)] font-bold'
               "
             >
