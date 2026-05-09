@@ -3,7 +3,7 @@
     class="flex flex-col lg:flex-row min-h-screen bg-[var(--background)] text-[var(--text)]"
   >
     <AdminSidebar />
-    <main class="flex-1 w-full p-4 md:p-8 lg:p-12">
+    <main class="flex-1 w-full p-4 md:p-8 lg:p-12 lg:ml-72">
       <slot />
     </main>
   </div>

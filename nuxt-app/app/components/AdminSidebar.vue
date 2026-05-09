@@ -124,7 +124,6 @@ const flags: Record<string, any> = {
 </script>
 
 <template>
-  <!-- 1. Mobile Top Bar (Admin Style) -->
   <div
     class="lg:hidden flex items-center justify-between p-4 border-b border-[var(--border)] bg-[var(--card)] sticky top-0 z-[60]"
   >
@@ -158,7 +157,6 @@ const flags: Record<string, any> = {
     </button>
   </div>
 
-  <!-- 2. Mobile Overlay -->
   <transition name="fade">
     <div
       v-if="isMobileMenuOpen"
@@ -167,14 +165,13 @@ const flags: Record<string, any> = {
     ></div>
   </transition>
 
-  <!-- 3. Sidebar (Admin Drawer) -->
   <aside
     :class="[
-      'fixed inset-y-0 left-0 z-[80] w-72 border-r border-[var(--border)] bg-[var(--card)] lg:bg-[var(--card)]/50 backdrop-blur-xl flex flex-col p-6 h-screen transition-transform duration-300 lg:translate-x-0 lg:static',
+      'fixed inset-y-0 left-0 z-[80] w-72 border-r border-[var(--border)] bg-[var(--card)] flex flex-col p-6 h-screen transition-transform duration-300',
       isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full',
+      'lg:translate-x-0',
     ]"
   >
-    <!-- Close Button (Mobile Only) -->
     <button
       @click="isMobileMenuOpen = false"
       class="lg:hidden absolute top-6 right-6 p-2 rounded-xl bg-[var(--border)]/30"
@@ -194,7 +191,6 @@ const flags: Record<string, any> = {
       </svg>
     </button>
 
-    <!-- Brand Logo -->
     <div class="mb-10 px-2">
       <div
         class="w-10 h-10 bg-[var(--primary)] rounded-xl mb-4 flex items-center justify-center text-white font-black shadow-lg shadow-[var(--primary)]/20"
