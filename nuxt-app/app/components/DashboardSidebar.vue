@@ -171,8 +171,9 @@ const flags: Record<string, any> = {
   </transition>
   <aside
     :class="[
-      'fixed inset-y-0 left-0 z-[80] w-72 border-r border-[var(--border)] bg-[var(--card)] lg:bg-[var(--card)]/50 backdrop-blur-xl flex flex-col p-6 h-screen transition-transform duration-300 lg:translate-x-0 lg:static',
+      'fixed inset-y-0 left-0 z-[80] w-72 border-r border-[var(--border)] bg-[var(--card)] lg:bg-[var(--card)]/50 backdrop-blur-xl flex flex-col p-6 h-screen transition-transform duration-300',
       isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full',
+      'lg:translate-x-0',
     ]"
   >
     <button

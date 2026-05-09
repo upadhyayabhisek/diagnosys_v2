@@ -2,7 +2,7 @@ import sqlite3
 from werkzeug.security import generate_password_hash
 
 def seed_data():
-    db_path = 'instance/mediai.db'
+    db_path = '../instance/mediai.db'
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     hashed_pw = generate_password_hash("nepal123")

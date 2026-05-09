@@ -78,35 +78,17 @@ const handlePredict = async () => {
 
           <div class="space-y-5">
             <div class="grid grid-cols-2 gap-4">
-              <div class="space-y-1.5">
-                <label
-                  class="text-[9px] font-black text-[var(--subtext)] uppercase ml-1"
-                  >Experience</label
-                >
-                <select
-                  v-model="form.experience_level"
-                  class="w-full bg-[var(--background)] border border-[var(--border)] rounded-2xl px-4 py-3.5 text-xs font-bold focus:border-[var(--primary)] outline-none transition-all appearance-none cursor-pointer"
-                >
-                  <option>Beginner</option>
-                  <option>Intermediate</option>
-                  <option>Advanced</option>
-                </select>
-              </div>
-              <div class="space-y-1.5">
-                <label
-                  class="text-[9px] font-black text-[var(--subtext)] uppercase ml-1"
-                  >Target</label
-                >
-                <select
-                  v-model="form.target_muscle"
-                  class="w-full bg-[var(--background)] border border-[var(--border)] rounded-2xl px-4 py-3.5 text-xs font-bold focus:border-[var(--primary)] outline-none transition-all appearance-none cursor-pointer"
-                >
-                  <option>Chest</option>
-                  <option>Legs</option>
-                  <option>Back</option>
-                  <option>Full Body</option>
-                </select>
-              </div>
+              <AppSelect
+                v-model="form.experience_level"
+                label="Experience"
+                :options="['Beginner', 'Intermediate', 'Advanced']"
+              />
+
+              <AppSelect
+                v-model="form.target_muscle"
+                label="Target"
+                :options="['Chest', 'Legs', 'Back', 'Full Body']"
+              />
             </div>
 
             <div class="grid grid-cols-3 gap-4">
