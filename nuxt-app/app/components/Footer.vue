@@ -24,14 +24,14 @@
               class="hover:text-[var(--primary)] transition-colors"
               aria-label="X"
             >
-              <!-- X icon -->
+              <!-- X icon -->x
             </a>
             <a
               href="#"
               class="hover:text-[var(--primary)] transition-colors"
               aria-label="GitHub"
             >
-              <!-- GitHub icon -->
+              <!-- GitHub icon -->github
             </a>
           </div>
         </div>
