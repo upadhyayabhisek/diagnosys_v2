@@ -58,6 +58,28 @@ def init_db():
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )
     """)
+
+    cursor.execute('''
+CREATE TABLE IF NOT EXISTS saved_workouts (
+    user_email TEXT PRIMARY KEY, 
+    target_muscle TEXT,
+    difficulty TEXT,
+    exercises TEXT,
+    total_calories INTEGER,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+''')
+    
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS user_profiles (
+            user_email TEXT PRIMARY KEY,
+            mobile_no TEXT,
+            address TEXT,
+            emergency_contact TEXT,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_email) REFERENCES users (email) ON DELETE CASCADE
+        )
+    ''')
     
     hashed_password = generate_password_hash("admin123")
     

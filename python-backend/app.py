@@ -1,12 +1,68 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import os
+import pickle
+import json
+import pandas as pd
+from fuzzywuzzy import process
+
 from chatbot import predict_disease, get_recommendations 
 from database import create_user, verify_user
 from database import get_all_faqs, add_faq, update_faq_status, delete_faq_by_id, delete_multiple_faqs,update_faq_details,get_active_faqs
 from database import get_all_users, update_user_status, delete_user_by_id, delete_multiple_users
 from database import get_all_hospitals, add_hospital, update_hospital, delete_hospital_by_id, delete_multiple_hospitals
 from database import get_all_doctors,add_new_doctor,update_doctor_details,delete_doctor_record,bulk_delete_doctors
+from database import save_workout_plan,get_latest_workout
+
+# --- 1. Class Definition required for Pickle ---
+class FitnessRecommender:
+    def __init__(self, df):
+        self.df = df.copy()
+        self.df["Difficulty Level_Cleaned"] = self.df["Difficulty Level_Cleaned"].str.strip().str.capitalize()
+        self.df["Target Muscle Group_Cleaned"] = self.df["Target Muscle Group_Cleaned"].fillna("").str.title().str.strip()
+
+    def fuzzy_match_muscle(self, target):
+        all_muscles = self.df["Target Muscle Group_Cleaned"].dropna().unique()
+        matches = process.extract(target, all_muscles, limit=3)
+        return [m[0] for m in matches if m[1] > 70]
+
+    def recommend(self, difficulty, muscle_group=None, n=5):
+        df = self.df[self.df["Difficulty Level_Cleaned"] == difficulty]
+        if muscle_group:
+            similar = self.fuzzy_match_muscle(muscle_group)
+            df = df[df["Target Muscle Group_Cleaned"].isin(similar)]
+        if df.empty:
+            df = self.df[self.df["Difficulty Level_Cleaned"] == difficulty]
+        
+        df = df.drop_duplicates(subset="Name of Exercise")
+        
+        if len(df) < 3:
+            return df.head(n)[["Name of Exercise", "Target Muscle Group_Cleaned", "Difficulty Level_Cleaned", "Calories_Burned"]]
+
+        q = df["Calories_Burned"].quantile([0.33, 0.66])
+        light = df[df["Calories_Burned"] <= q[0.33]]
+        medium = df[(df["Calories_Burned"] > q[0.33]) & (df["Calories_Burned"] <= q[0.66])]
+        intense = df[df["Calories_Burned"] > q[0.66]]
+        
+        result = pd.concat([
+            light.sample(n=min(1, len(light)), replace=False),
+            medium.sample(n=min(2, len(medium)), replace=False),
+            intense.sample(n=min(2, len(intense)), replace=False),
+        ])
+        return result.sample(frac=1).reset_index(drop=True)[["Name of Exercise", "Target Muscle Group_Cleaned", "Difficulty Level_Cleaned", "Calories_Burned"]]
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PKL_PATH = os.path.join(BASE_DIR, "fitness_recommender.pkl")
+recommender = None
+try:
+    with open(PKL_PATH, "rb") as f:
+        recommender = pickle.load(f)
+    print("✅ Fitness Recommender loaded successfully!")
+except FileNotFoundError:
+    print(f"❌ Error: Could not find the file at {PKL_PATH}")
+except Exception as e:
+    print(f"❌ An error occurred loading pickle: {e}")
+
+
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -232,6 +288,76 @@ def bulk_remove_doctors():
     bulk_delete_doctors(ids)
     return jsonify({"status": "success"})
 
+
+@app.route("/save-workout", methods=["POST"])
+def save_workout():
+    data = request.json
+    email = data.get('email')
+    rec = data.get('recommendation')
+    if not email or not rec:
+        return jsonify({"status": "error", "message": "Missing info"}), 400
+    success = save_workout_plan(
+        email=email, 
+        target=rec['target'], 
+        difficulty=data.get('difficulty'), 
+        exercises_json=json.dumps(rec['exercises']), 
+        expected_burn=rec['expected_burn']
+    )
+    if success:
+        return jsonify({"status": "success"})
+    return jsonify({"status": "error", "message": "Failed to save to database"}), 500
+
+
+@app.route("/recommend-workout", methods=["POST"])
+def recommend_workout():
+    if recommender is None:
+        return jsonify({"error": "Recommender system is not initialized"}), 500
+    data = request.json
+    difficulty = data.get('difficulty', 'Beginner')
+    target_muscle = data.get('target_muscle', 'Full Body')
+    try:
+        user_weight = float(data.get('weight', 70))
+    except ValueError:
+        user_weight = 70.0
+    weight_multiplier = user_weight / 70.0
+    try:
+        recommendations_df = recommender.recommend(difficulty, target_muscle)
+        exercises = []
+        running_total = 0
+        for _, row in recommendations_df.iterrows():
+            base_calories = row['Calories_Burned'] / 100
+            adjusted_calories = int(base_calories * weight_multiplier)
+            exercises.append({
+                "name": row['Name of Exercise'],
+                "sets": "3 Sets x 12 Reps",
+                "calories": adjusted_calories
+            })
+            running_total += adjusted_calories
+        return jsonify({
+            "target": target_muscle,
+            "exercises": exercises,
+            "expected_burn": running_total
+        })
+    except Exception as e:
+        print(f"Recommendation Error: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/get-workout-plan", methods=["GET"])
+def get_workout_plan():
+    email = request.args.get('email')
+    if not email:
+        return jsonify({"error": "Email is required"}), 400
+    workout_data = get_latest_workout(email)
+
+    if workout_data:
+        return jsonify({
+            "status": "success",
+            "data": workout_data
+        })
+    return jsonify({
+        "status": "empty", 
+        "message": "No workout saved for this user"
+    }), 200
 
 if __name__ == "__main__":
     app.run(debug=True, port=5001)

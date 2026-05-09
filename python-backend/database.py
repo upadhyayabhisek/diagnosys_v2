@@ -1,6 +1,7 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 import os
+import json
 
 DB_PATH = "instance/mediai.db"
 
@@ -205,4 +206,49 @@ def bulk_delete_doctors(ids):
     conn.execute(query, ids)
     conn.commit()
     conn.close()
-    
+
+def save_workout_plan(email, target, difficulty, exercises_json, expected_burn):
+    conn = get_db_connection()
+    try:
+        conn.execute(
+            """
+            INSERT OR REPLACE INTO saved_workouts 
+            (user_email, target_muscle, difficulty, exercises, total_calories) 
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            (email, target, difficulty, exercises_json, expected_burn)
+        )
+        conn.commit()
+        return True
+    except Exception as e:
+        print(f"Error saving workout: {e}")
+        return False
+    finally:
+        conn.close()
+
+def get_latest_workout(email):
+    """Fetches the most recent workout plan for a user by email."""
+    conn = get_db_connection()
+    try:
+        row = conn.execute(
+            """
+            SELECT target_muscle, difficulty, exercises, total_calories 
+            FROM saved_workouts 
+            WHERE user_email = ?
+            """,
+            (email,)
+        ).fetchone()
+
+        if row:
+            return {
+                "target": row['target_muscle'],
+                "difficulty": row['difficulty'],
+                "exercises": json.loads(row['exercises']),
+                "total_calories": row['total_calories']
+            }
+        return None
+    except Exception as e:
+        print(f"Database Error (get_latest_workout): {e}")
+        return None
+    finally:
+        conn.close()
