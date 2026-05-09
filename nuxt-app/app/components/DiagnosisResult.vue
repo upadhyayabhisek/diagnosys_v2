@@ -3,7 +3,7 @@ import { computed } from "vue";
 
 interface Props {
   type: "Liver" | "Kidney" | "Diabetes";
-  result: string; // e.g., "Positive" or "Negative"
+  result: string;
   confidence: number | string;
   formData: Record<string, any>;
   reportId?: string;

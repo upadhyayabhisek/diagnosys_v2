@@ -21,17 +21,18 @@
           <div class="flex items-center gap-4 text-[var(--subtext)]">
             <a
               href="#"
-              class="hover:text-[var(--primary)] transition-colors"
+              class="hover:text-[var(--primary)] transition-colors flex items-center"
               aria-label="X"
             >
-              <!-- X icon -->x
+              <Icon name="simple-icons:x" class="w-5 h-5" />
             </a>
+
             <a
               href="#"
-              class="hover:text-[var(--primary)] transition-colors"
+              class="hover:text-[var(--primary)] transition-colors flex items-center"
               aria-label="GitHub"
             >
-              <!-- GitHub icon -->github
+              <Icon name="lucide:github" class="w-5 h-5" />
             </a>
           </div>
         </div>
