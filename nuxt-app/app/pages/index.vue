@@ -2,7 +2,6 @@
   <div
     class="min-h-screen bg-[var(--background)] font-sans text-[var(--text)] selection:bg-[var(--primary)]/20"
   >
-    <!-- Hero Section (Apple-style minimalism) -->
     <section
       class="relative pt-32 pb-32 px-6 overflow-hidden flex flex-col items-center justify-center min-h-[90vh]"
     >
