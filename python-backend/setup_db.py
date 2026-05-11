@@ -41,6 +41,16 @@ def init_db():
         FOREIGN KEY (record_id) REFERENCES DiabetesRecords(id)
     )
     ''')
+    
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS LiverRecords (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        inputs_json TEXT NOT NULL,
+        result TEXT NOT NULL,
+        confidence REAL NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    ''')
 
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS users (
