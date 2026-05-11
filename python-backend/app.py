@@ -8,6 +8,8 @@ from routes.faq_routes import faq_bp
 from routes.hospital_routes import hospital_bp
 from routes.doctor_routes import doctor_bp
 from routes.fitness_routes import fitness_bp
+from routes.diabetes_routes import diabetes_bp
+from routes.report_routes import reports_bp
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -19,6 +21,8 @@ app.register_blueprint(faq_bp)
 app.register_blueprint(hospital_bp)
 app.register_blueprint(doctor_bp)
 app.register_blueprint(fitness_bp)
+app.register_blueprint(diabetes_bp)
+app.register_blueprint(reports_bp)
 
 @app.route("/")
 def home():
