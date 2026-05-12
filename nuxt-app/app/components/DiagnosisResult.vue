@@ -56,7 +56,6 @@ const downloadPDF = async () => {
   html2pdf().set(opt).from(element).save();
 };
 
-// Filter out internal data from showing in the report table
 const displayData = computed(() => {
   const internalKeys = ["user_email", "id", "created_at"];
   return Object.entries(props.formData).filter(
@@ -69,7 +68,6 @@ const displayData = computed(() => {
   <div
     class="max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700"
   >
-    <!-- Action Bar: Prevents the need for reloading -->
     <div class="flex justify-between items-center mb-8 px-4">
       <button
         @click="$emit('back')"
@@ -96,12 +94,10 @@ const displayData = computed(() => {
       </button>
     </div>
 
-    <!-- Printable Report Area -->
     <div ref="reportRef">
       <div
         class="bg-[var(--card)] border border-[var(--border)] rounded-[3rem] overflow-hidden shadow-2xl shadow-black/5"
       >
-        <!-- Header Section -->
         <div
           class="p-10 border-b border-[var(--border)] bg-gradient-to-br from-transparent to-[var(--primary)]/5"
         >
@@ -136,7 +132,6 @@ const displayData = computed(() => {
           </div>
         </div>
 
-        <!-- Result Summary -->
         <div
           class="grid grid-cols-1 md:grid-cols-2 border-b border-[var(--border)]"
         >
@@ -197,7 +192,6 @@ const displayData = computed(() => {
           </div>
         </div>
 
-        <!-- Data Table -->
         <div class="p-10">
           <h4
             class="text-[10px] font-black uppercase tracking-widest text-[var(--subtext)] mb-6 flex items-center gap-2"

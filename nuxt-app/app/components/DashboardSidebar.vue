@@ -204,7 +204,7 @@ const flags: Record<string, any> = {
         MediAI <span class="text-[var(--primary)] font-bold">User</span>
       </h2>
     </div>
-    <nav class="flex-1 space-y-2 overflow-y-auto pr-2 custom-scrollbar">
+    <nav class="flex-1 space-y-2 overflow-y-auto pr-2 custom-scrollbar mb-2">
       <NuxtLink
         :to="navItems[0].path"
         :class="[
