@@ -9,7 +9,7 @@ definePageMeta({
 const { user } = useAuth();
 const currentPage = ref(1);
 const limit = ref(5);
-
+const route = useRoute();
 const selectedReportData = ref<any>(null);
 const isViewing = ref(false);
 const isLoadingDetails = ref(false);
@@ -35,33 +35,36 @@ const pagination = computed(
   () => responseData.value?.pagination || { page: 1, pages: 1 },
 );
 
-const handleViewAnalysis = async (displayId: string) => {
-  const numericId = displayId.split("-")[1];
+const handleViewAnalysis = async (reportId: string) => {
   isLoadingDetails.value = true;
 
   try {
     const data = await $fetch(
-      `http://127.0.0.1:5001/api/report-details/${numericId}`,
+      `http://127.0.0.1:5001/api/report-details/${reportId}`,
     );
     selectedReportData.value = {
       ...data,
-      type: data.type.includes("Diabetes")
-        ? "Diabetes"
-        : data.type.includes("Kidney")
-          ? "Kidney"
-          : "Liver",
+      type: data.type,
     };
-
     isViewing.value = true;
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   } catch (err) {
     console.error("Failed to fetch report details:", err);
-    alert("Could not retrieve full clinical data.");
   } finally {
     isLoadingDetails.value = false;
   }
 };
 
+onMounted(async () => {
+  const reportId = route.query.report;
+
+  if (reportId && typeof reportId === "string") {
+    await handleViewAnalysis(reportId);
+  }
+});
 const closeReport = () => {
   isViewing.value = false;
   selectedReportData.value = null;
@@ -105,7 +108,7 @@ const formatDate = (dateString: string) => {
       <header class="mb-12 flex justify-between items-end">
         <div>
           <p
-            class="text-[10px] font-black tracking-[0.2em] text-[var(--primary)] mb-2 uppercase"
+            class="text-[10px] font-black tracking-[0.2em] text-[var(--primary)] mb-2"
           >
             Health Archives
           </p>

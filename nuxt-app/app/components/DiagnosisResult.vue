@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref } from "vue";
 
 interface Props {
   type: "Liver" | "Kidney" | "Diabetes";
@@ -11,13 +11,25 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+const emit = defineEmits(["download", "back"]);
 
+// Improved Color Logic: Emerald for "Normal/Negative", Red for "Disease/Positive"
 const isPositive = computed(() => {
   const res = props.result.toLowerCase();
+  // If it contains "no" (like "No Disease") or "negative" or "not", it's usually healthy
+  if (
+    res.includes("no ") ||
+    res.includes("not") ||
+    res.includes("negative") ||
+    res.includes("normal")
+  ) {
+    return false;
+  }
   return (
     res.includes("positive") ||
     res.includes("detected") ||
-    res.includes("disease")
+    res.includes("disease") ||
+    res.includes("ckd")
   );
 });
 
@@ -29,51 +41,73 @@ const currentDate = new Date().toLocaleDateString("en-US", {
   minute: "2-digit",
 });
 
-const emit = defineEmits(["download", "back"]);
 const reportRef = ref<HTMLElement | null>(null);
+
 const downloadPDF = async () => {
   const html2pdf = (await import("html2pdf.js")).default;
-
   const element = reportRef.value;
   const opt = {
     margin: 10,
-    filename: `Report-${props.reportId}.pdf`,
+    filename: `Report-${props.reportId || "Analysis"}.pdf`,
     image: { type: "jpeg", quality: 0.98 },
     html2canvas: { scale: 2, useCORS: true },
     jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
   };
-
   html2pdf().set(opt).from(element).save();
 };
+
+// Filter out internal data from showing in the report table
+const displayData = computed(() => {
+  const internalKeys = ["user_email", "id", "created_at"];
+  return Object.entries(props.formData).filter(
+    ([key]) => !internalKeys.includes(key),
+  );
+});
 </script>
 
 <template>
   <div
     class="max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700"
   >
-    <div class="flex justify-between items-center mb-6">
+    <!-- Action Bar: Prevents the need for reloading -->
+    <div class="flex justify-between items-center mb-8 px-4">
       <button
         @click="$emit('back')"
-        class="text-[10px] font-black uppercase tracking-widest text-[var(--subtext)] hover:text-[var(--primary)] transition-colors flex items-center gap-2"
+        class="group flex items-center gap-3 px-5 py-3 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--primary)] transition-all"
       >
-        <i class="fas fa-chevron-left"></i> New Analysis
+        <i
+          class="fas fa-arrow-left text-[var(--primary)] group-hover:-translate-x-1 transition-transform"
+        ></i>
+        <span
+          class="text-[10px] font-black uppercase tracking-widest text-[var(--subtext)] group-hover:text-[var(--text)]"
+        >
+          Back to Assessment
+        </span>
+      </button>
+
+      <button
+        @click="downloadPDF"
+        class="flex items-center gap-3 px-5 py-3 rounded-2xl bg-[var(--primary)] text-white hover:brightness-110 transition-all shadow-lg shadow-[var(--primary)]/20"
+      >
+        <i class="fas fa-file-download text-xs"></i>
+        <span class="text-[10px] font-black uppercase tracking-widest"
+          >Download Report</span
+        >
       </button>
     </div>
-    <div ref="reportRef" class="bg-[var(--card)] ...">
+
+    <!-- Printable Report Area -->
+    <div ref="reportRef">
       <div
         class="bg-[var(--card)] border border-[var(--border)] rounded-[3rem] overflow-hidden shadow-2xl shadow-black/5"
       >
+        <!-- Header Section -->
         <div
           class="p-10 border-b border-[var(--border)] bg-gradient-to-br from-transparent to-[var(--primary)]/5"
         >
           <div class="flex justify-between items-start">
             <div>
               <div class="flex items-center gap-3 mb-4">
-                <div
-                  class="w-10 h-10 bg-[var(--primary)] rounded-xl flex items-center justify-center text-white"
-                >
-                  <i class="fas fa-microscope"></i>
-                </div>
                 <h2 class="text-2xl font-black tracking-tight">
                   Clinical Analysis Report
                 </h2>
@@ -88,7 +122,7 @@ const downloadPDF = async () => {
 
             <div class="text-right">
               <div
-                class="inline-block px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest mb-2"
+                class="inline-block px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest mb-2 transition-colors duration-500"
                 :class="
                   isPositive
                     ? 'bg-red-500/10 text-red-500'
@@ -115,7 +149,7 @@ const downloadPDF = async () => {
               Primary Prediction
             </p>
             <h3
-              class="text-4xl font-black mb-2"
+              class="text-4xl font-black mb-2 transition-colors duration-500"
               :class="isPositive ? 'text-red-500' : 'text-emerald-500'"
             >
               {{ result }}
@@ -134,7 +168,6 @@ const downloadPDF = async () => {
               Confidence Score
             </p>
             <div class="relative flex items-center justify-center">
-              <!-- Circular Progress Visual -->
               <svg class="w-24 h-24 transform -rotate-90">
                 <circle
                   cx="48"
@@ -174,7 +207,7 @@ const downloadPDF = async () => {
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
             <div
-              v-for="(value, key) in formData"
+              v-for="[key, value] in displayData"
               :key="key"
               class="flex justify-between items-center py-3 border-b border-[var(--border)]/50"
             >
@@ -192,7 +225,6 @@ const downloadPDF = async () => {
           </div>
         </div>
 
-        <!-- Footer Disclaimer -->
         <div class="p-8 bg-[var(--background)] border-t border-[var(--border)]">
           <div class="flex items-start gap-4">
             <i class="fas fa-info-circle text-[var(--primary)] mt-1"></i>
@@ -209,28 +241,3 @@ const downloadPDF = async () => {
     </div>
   </div>
 </template>
-
-<style scoped>
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes slide-in {
-  from {
-    transform: translateY(20px);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-
-.animate-in {
-  animation:
-    fade-in 0.5s ease-out,
-    slide-in 0.5s ease-out;
-}
-</style>

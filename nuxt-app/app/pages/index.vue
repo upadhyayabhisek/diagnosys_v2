@@ -5,13 +5,11 @@
     <section
       class="relative pt-32 pb-32 px-6 overflow-hidden flex flex-col items-center justify-center min-h-[90vh]"
     >
-      <!-- Soft Ambient Glow -->
       <div
         class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-[var(--primary)]/10 to-transparent rounded-full blur-[100px] -z-10 opacity-70 pointer-events-none"
       ></div>
 
       <div class="max-w-5xl mx-auto text-center flex flex-col items-center">
-        <!-- Pill Badge -->
         <div
           class="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-[var(--bg-secondary)] text-[var(--primary)] text-sm font-semibold tracking-wide mb-12 shadow-sm"
         >
@@ -26,7 +24,6 @@
           {{ $t("home.hero.badge") }}
         </div>
 
-        <!-- Huge, Clean Typography -->
         <h1
           class="text-6xl md:text-8xl lg:text-[7rem] font-bold tracking-tighter mb-8 leading-[1.05]"
         >
@@ -44,7 +41,6 @@
           {{ $t("home.hero.subtitle") }}
         </p>
 
-        <!-- Pill Buttons -->
         <div
           class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
         >
@@ -78,9 +74,7 @@
       </div>
     </section>
 
-    <!-- Main Feature Showcase (Fluid, Non-Boxy) -->
     <section class="max-w-7xl mx-auto px-6 py-24">
-      <!-- Feature 1: The Synthesis Engine (Full Width, Soft) -->
       <div
         class="bg-[var(--bg-secondary)] rounded-[3rem] p-12 md:p-24 mb-10 flex flex-col md:flex-row items-center gap-16 transition-transform duration-500 hover:scale-[1.01]"
       >
@@ -123,7 +117,6 @@
             }}</span>
           </div>
         </div>
-        <!-- Abstract representation instead of a hard image box -->
         <div
           class="flex-1 flex justify-center items-center relative w-full h-64 md:h-auto"
         >
@@ -136,9 +129,7 @@
         </div>
       </div>
 
-      <!-- Feature 2 & 3: Floating Panels -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10">
-        <!-- AI Companion -->
         <div
           class="bg-[var(--card)] rounded-[3rem] p-12 shadow-2xl shadow-black/5 flex flex-col justify-between hover:-translate-y-2 transition-transform duration-500"
         >
@@ -177,7 +168,6 @@
           </div>
         </div>
 
-        <!-- Interactive Charts -->
         <div
           class="bg-[var(--card)] rounded-[3rem] p-12 shadow-2xl shadow-black/5 flex flex-col justify-between hover:-translate-y-2 transition-transform duration-500"
         >
@@ -211,8 +201,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Feature 4 & 5: Minimalist Row (Reports & Emergency) -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
         <div
           class="flex items-start gap-6 p-8 rounded-[2rem] hover:bg-[var(--bg-secondary)] transition-colors duration-300"
@@ -282,7 +270,6 @@
       </div>
     </section>
 
-    <!-- Final Serene CTA -->
     <section class="max-w-5xl mx-auto px-6 pb-32">
       <div
         class="bg-[var(--primary)] rounded-[3rem] p-16 md:p-24 text-center relative overflow-hidden shadow-2xl shadow-[var(--primary)]/20"
@@ -309,7 +296,6 @@
 </template>
 
 <style scoped>
-/* Optional soft animation for the abstract blobs in feature 1 */
 @keyframes blob {
   0% {
     transform: translate(0px, 0px) scale(1);
