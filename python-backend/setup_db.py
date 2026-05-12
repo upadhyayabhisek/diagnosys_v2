@@ -53,6 +53,16 @@ def init_db():
     ''')
 
     cursor.execute('''
+    CREATE TABLE IF NOT EXISTS KidneyRecords (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    inputs_json TEXT NOT NULL,
+    result TEXT NOT NULL,
+    confidence REAL NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
+    ''')    
+
+    cursor.execute('''
     CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,

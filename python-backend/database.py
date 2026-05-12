@@ -44,7 +44,11 @@ def create_user(name, email, password, role='user', gender=None, birthday=None):
 
 def get_all_users():
     conn = get_db_connection()
-    users = conn.execute("SELECT id, name, email, role, gender, birthday, status, created_at FROM users").fetchall()
+    users = conn.execute("""
+    SELECT id, name, email, role, gender, birthday, status, created_at
+    FROM users
+    WHERE role = 'user'
+    """).fetchall()
     conn.close()
     return [dict(user) for user in users]
 
