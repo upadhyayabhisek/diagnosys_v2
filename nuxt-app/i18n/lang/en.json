@@ -102,6 +102,7 @@
         "hospitals": "Partner Hospitals",
         "doctors": "Medical Staff",
         "faq": "FAQs",
-        "analytics": "Feature Distribution"
+        "analytics": "Feature Distribution",
+        "systemanalytics": "System Anlaytics"
     }
 }
