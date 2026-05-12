@@ -317,6 +317,32 @@ const flags: Record<string, any> = {
     </nav>
 
     <div class="mt-auto pt-6 border-t border-[var(--border)] space-y-2">
+      <div class="px-2">
+        <NuxtLink
+          to="/dashboard/settings"
+          class="w-full flex justify-between items-center px-4 py-3 text-sm font-bold rounded-2xl transition-all duration-200 text-[var(--subtext)] hover:bg-[var(--border)] hover:text-[var(--text)]"
+        >
+          <div class="flex items-center gap-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+
+            <span>Profile</span>
+          </div>
+        </NuxtLink>
+      </div>
+
       <div class="relative px-2">
         <button
           @click="isSettingsOpen = !isSettingsOpen"

@@ -13,6 +13,8 @@ from routes.liver_routes import liver_bp
 from routes.kidney_routes import kidney_bp
 from routes.report_routes import reports_bp
 from routes.admin_dashboard import admin_dashboard_bp
+from routes.user_settings_routes import user_settings_bp
+
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -29,6 +31,7 @@ app.register_blueprint(liver_bp)
 app.register_blueprint(kidney_bp)
 app.register_blueprint(reports_bp)
 app.register_blueprint(admin_dashboard_bp)
+app.register_blueprint(user_settings_bp)
 
 
 @app.route("/")

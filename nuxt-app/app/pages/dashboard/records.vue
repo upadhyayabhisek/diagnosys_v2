@@ -6,10 +6,6 @@ definePageMeta({ layout: "dashboard" });
 
 const { user } = useAuth();
 
-// =====================================================
-// FETCH ALL TRENDS
-// =====================================================
-
 const { data: diabetesTrend, pending } = await useFetch(
   () => `http://127.0.0.1:5001/api/trends/diabetes/${user.value?.email}`,
   {
@@ -33,10 +29,6 @@ const { data: liverTrend } = await useFetch(
     key: `liver-trends-${user.value?.email}`,
   },
 );
-
-// =====================================================
-// COMBINED TREND SECTIONS
-// =====================================================
 
 const trendSections = computed(() => [
   {
@@ -80,7 +72,6 @@ const formatDate = () =>
       </h1>
     </header>
 
-    <!-- LOADING -->
     <div v-if="pending" class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div
         v-for="i in 3"
@@ -112,7 +103,6 @@ const formatDate = () =>
       </p>
     </div>
 
-    <!-- TREND SECTIONS -->
     <div class="space-y-20">
       <section
         v-for="section in trendSections"
@@ -122,7 +112,6 @@ const formatDate = () =>
           'opacity-50 grayscale': section.data?.status === 'empty',
         }"
       >
-        <!-- SECTION HEADER -->
         <div class="flex items-center gap-3">
           <div
             class="w-12 h-12 rounded-2xl bg-[var(--primary)]/10 text-[var(--primary)] flex items-center justify-center shrink-0"
@@ -144,7 +133,6 @@ const formatDate = () =>
           </div>
         </div>
 
-        <!-- EMPTY CARDS -->
         <div
           v-if="section.data?.status === 'empty'"
           class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
@@ -156,7 +144,6 @@ const formatDate = () =>
           ></div>
         </div>
 
-        <!-- TREND CARDS -->
         <div
           v-else
           class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
@@ -188,7 +175,6 @@ const formatDate = () =>
                 </div>
               </div>
 
-              <!-- STATUS -->
               <div
                 :class="[
                   'px-3 py-1 rounded-full text-[10px] font-black uppercase flex items-center gap-1 shrink-0',
@@ -214,7 +200,6 @@ const formatDate = () =>
               </div>
             </div>
 
-            <!-- FOOTER -->
             <div class="pt-6 border-t border-[var(--border)]/50">
               <div
                 class="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-[var(--subtext)] gap-4"
@@ -227,7 +212,6 @@ const formatDate = () =>
                 </span>
               </div>
 
-              <!-- BAR -->
               <div
                 class="w-full bg-[var(--background)] h-2 rounded-full mt-4 overflow-hidden"
               >
