@@ -13,10 +13,8 @@ interface Props {
 const props = defineProps<Props>();
 const emit = defineEmits(["download", "back"]);
 
-// Improved Color Logic: Emerald for "Normal/Negative", Red for "Disease/Positive"
 const isPositive = computed(() => {
   const res = props.result.toLowerCase();
-  // If it contains "no" (like "No Disease") or "negative" or "not", it's usually healthy
   if (
     res.includes("no ") ||
     res.includes("not") ||
@@ -43,17 +41,19 @@ const currentDate = new Date().toLocaleDateString("en-US", {
 
 const reportRef = ref<HTMLElement | null>(null);
 
-const downloadPDF = async () => {
-  const html2pdf = (await import("html2pdf.js")).default;
-  const element = reportRef.value;
-  const opt = {
-    margin: 10,
-    filename: `Report-${props.reportId || "Analysis"}.pdf`,
-    image: { type: "jpeg", quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true },
-    jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-  };
-  html2pdf().set(opt).from(element).save();
+const downloadPDF = () => {
+  if (!props.reportId) {
+    alert("Report ID not found");
+    return;
+  }
+  const numericId = props.reportId.match(/\d+/)?.[0];
+
+  if (!numericId) {
+    alert("Invalid Report ID format");
+    return;
+  }
+
+  window.open(`http://127.0.0.1:5001/download_report/${numericId}`, "_blank");
 };
 
 const displayData = computed(() => {

@@ -224,7 +224,7 @@ const exportToCSV = () => {
   link.setAttribute("href", url);
   link.setAttribute(
     "download",
-    `mediai_users_${new Date().toISOString().slice(0, 10)}.csv`,
+    ` diagnosys_users_${new Date().toISOString().slice(0, 10)}.csv`,
   );
   link.style.visibility = "hidden";
 

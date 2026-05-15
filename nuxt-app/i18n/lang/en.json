@@ -9,7 +9,7 @@
         "exercise": "Exercise",
         "faq": "FAQ",
         "howItWorks": "How It works",
-        "hospitals": "Hospitals",
+        "hospitals": "Partner Hospitals & Doctors",
         "aboutUs": "About Us"
     },
     "prediction": {
@@ -32,7 +32,7 @@
         }
     },
     "chat": {
-        "engine_name": "MediAI",
+        "engine_name": "mediai",
         "status_analyzing": "Analyzing...",
         "status_subtext_idle": "Neural Core v4.0",
         "status_subtext_active": "Live Pattern Match",
@@ -44,7 +44,7 @@
     },
     "home": {
         "hero": {
-            "badge": "MediAI",
+            "badge": "mediai",
             "title_part1": "Your health.",
             "title_part2": "Decoded.",
             "subtitle": "Advanced predictive intelligence for metabolic, renal, and hepatic health. Understand your body with clinical-grade clarity.",
@@ -93,8 +93,8 @@
         "assistance": "Assistance",
         "helpCenter": "Help Center",
         "emergencyInfo": "Emergency Info",
-        "disclaimer": "Disclaimer: MediAI is an information-only platform powered by machine learning. It is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
-        "copyright": "© 2026 MediAI Health Systems Inc."
+        "disclaimer": "Disclaimer: mediai is an information-only platform powered by machine learning. It is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+        "copyright": "© 2026 mediai Health Systems Inc."
     },
     "adminbar": {
         "overview": "Overview",

@@ -7,7 +7,7 @@
         Frequently Asked Questions
       </h1>
       <p class="text-[var(--subtext)] text-xl font-medium">
-        Everything you need to know about MediAI.
+        Everything you need to know about diagnosys.
       </p>
     </section>
 

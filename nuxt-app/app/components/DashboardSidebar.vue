@@ -52,12 +52,12 @@ const navItems = computed(() => [
     path: "/dashboard/records",
     icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z",
   },
-  {
-    id: "hospitals",
-    label: "Nearby Facilities",
-    path: "/dashboard/hospitals",
-    icon: "M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z",
-  },
+  // {
+  //   id: "hospitals",
+  //   label: "Nearby Facilities",
+  //   path: "/dashboard/hospitals",
+  //   icon: "M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z",
+  // },
 ]);
 
 const predictionSubItems = [
@@ -141,7 +141,7 @@ const flags: Record<string, any> = {
       >
         M
       </div>
-      <h2 class="text-lg font-black tracking-tighter">MediAI</h2>
+      <h2 class="text-lg font-black tracking-tighter">diagnosys</h2>
     </div>
     <button
       @click="isMobileMenuOpen = true"
@@ -198,10 +198,10 @@ const flags: Record<string, any> = {
       <div
         class="w-10 h-10 bg-[var(--primary)] rounded-xl mb-4 flex items-center justify-center text-white font-black shadow-lg shadow-[var(--primary)]/20"
       >
-        M
+        D
       </div>
       <h2 class="text-xl font-black tracking-tighter">
-        MediAI <span class="text-[var(--primary)] font-bold">User</span>
+        diagnosys <span class="text-[var(--primary)] font-bold">User</span>
       </h2>
     </div>
     <nav class="flex-1 space-y-2 overflow-y-auto pr-2 custom-scrollbar mb-2">

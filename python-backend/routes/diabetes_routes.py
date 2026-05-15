@@ -71,14 +71,14 @@ def predict_diabetes():
             INSERT INTO PredictionResults (user_email, disease_type, record_id)
             VALUES (?, ?, ?)
         ''', (user_email, 'Diabetes', diabetes_record_id))
-
+        prediction_result_id = cursor.lastrowid
         conn.commit()
         conn.close()
         return jsonify({
             "status": "success",
             "result": result_text,
             "confidence": confidence_val,
-            "report_id": f"DX-{diabetes_record_id}-AI"
+            "report_id": prediction_result_id
         }), 200
 
     except Exception as e:

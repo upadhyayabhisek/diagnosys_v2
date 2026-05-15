@@ -25,7 +25,7 @@ def test_home_route(client):
     """Check if the home page works"""
     response = client.get('/')
     assert response.status_code == 200
-    assert b"MediAI Backend running" in response.data
+    assert b"mediai Backend running" in response.data
 
 def test_analyze_endpoint(client):
     """Check if the /analyze endpoint returns JSON success"""

@@ -20,7 +20,7 @@
               <p
                 class="text-[var(--subtext)] text-sm font-medium max-w-[280px] leading-relaxed"
               >
-                Our commitment to protecting your data within the MediAI
+                Our commitment to protecting your data within the diagnosys
                 research environment.
               </p>
               <div class="text-[11px] font-mono text-[var(--subtext)]/60">
@@ -43,7 +43,7 @@
               class="space-y-6 text-[var(--text)] text-lg leading-relaxed font-medium"
             >
               <p>
-                MediAI operates as a
+                diagnosys operates as a
                 <span
                   class="text-[var(--primary)] underline decoration-2 underline-offset-4"
                   >learning and research platform</span

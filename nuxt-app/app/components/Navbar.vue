@@ -9,10 +9,10 @@
           <div
             class="h-9 w-9 bg-[var(--primary)] rounded-xl flex items-center justify-center font-black text-white transition-all duration-300 group-hover:rotate-12 shadow-lg shadow-blue-500/20"
           >
-            M
+            D
           </div>
           <span class="text-xl font-bold tracking-tight text-[var(--text)]">
-            MediAI
+            diagnosys
           </span>
         </NuxtLink>
 

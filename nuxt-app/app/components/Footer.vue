@@ -9,10 +9,12 @@
             <div
               class="h-9 w-9 bg-[var(--primary)] rounded-xl flex items-center justify-center font-black text-white shadow-lg shadow-blue-500/20 transition-all group-hover:scale-110 group-hover:rotate-3"
             >
-              M
+              D
             </div>
-            <span class="font-bold text-2xl tracking-tighter text-[var(--text)]"
-              >MediAI</span
+            <span
+              class="font-bold text-2xl tracking-tighter text-[var(--text)]"
+            >
+              diagnosys</span
             >
           </NuxtLink>
           <p class="text-[var(--subtext)] text-sm leading-relaxed mb-6">

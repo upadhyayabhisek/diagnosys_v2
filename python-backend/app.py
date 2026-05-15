@@ -14,7 +14,7 @@ from routes.kidney_routes import kidney_bp
 from routes.report_routes import reports_bp
 from routes.admin_dashboard import admin_dashboard_bp
 from routes.user_settings_routes import user_settings_bp
-
+from routes.download_report import report_bp 
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -32,11 +32,12 @@ app.register_blueprint(kidney_bp)
 app.register_blueprint(reports_bp)
 app.register_blueprint(admin_dashboard_bp)
 app.register_blueprint(user_settings_bp)
+app.register_blueprint(report_bp)
 
 
 @app.route("/")
 def home():
-    return jsonify({"message": "MediAI Backend running 🚀"})
+    return jsonify({"message": "mediai Backend running 🚀"})
 
 if __name__ == "__main__":
     app.run(debug=True, port=5001)

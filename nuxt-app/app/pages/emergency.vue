@@ -32,7 +32,7 @@
             Immediate Medical Assistance in Nepal
           </h1>
           <p class="text-white/90 text-lg font-medium max-w-2xl mx-auto">
-            MediAI is an analytical tool for chronic health tracking. It is
+            diagnosys is an analytical tool for chronic health tracking. It is
             <strong>not</strong> a diagnostic service for acute emergencies. If
             you are in distress, please use the contacts below.
           </p>
@@ -140,7 +140,7 @@
         class="p-6 rounded-[2rem] border border-yellow-500/20 bg-yellow-500/5"
       >
         <p class="text-xs text-[var(--subtext)] leading-relaxed italic">
-          Disclaimer: MediAI is a technology platform. We do not provide
+          Disclaimer: diagnosys is a technology platform. We do not provide
           ambulance services ourselves. The numbers provided above are the
           public emergency response lines of the Government of Nepal and
           non-profit organizations.

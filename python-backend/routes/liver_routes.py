@@ -90,7 +90,7 @@ def predict_liver():
             'Liver',
             liver_record_id
         ))
-
+        prediction_result_id = cursor.lastrowid
         conn.commit()
         conn.close()
 
@@ -98,7 +98,7 @@ def predict_liver():
             "status": "success",
             "result": result_text,
             "confidence": confidence_val,
-            "report_id": f"LIV-{liver_record_id}-AI"
+            "report_id": prediction_result_id
         }), 200
 
     except Exception as e:

@@ -20,8 +20,8 @@
               <p
                 class="text-[var(--subtext)] text-sm font-medium max-w-[280px] leading-relaxed"
               >
-                Operating guidelines for the MediAI research interface. Please
-                read thoroughly.
+                Operating guidelines for the diagnosys research interface.
+                Please read thoroughly.
               </p>
             </div>
           </div>
@@ -40,8 +40,8 @@
               class="bg-red-500/5 border border-red-500/10 p-8 rounded-2xl space-y-4"
             >
               <p class="text-[var(--text)] text-xl font-bold leading-tight">
-                MediAI is an experimental Machine Learning interface. It is not
-                a licensed medical diagnostic tool.
+                diagnosys is an experimental Machine Learning interface. It is
+                not a licensed medical diagnostic tool.
               </p>
               <p class="text-[var(--subtext)] text-sm leading-relaxed">
                 By interacting with our models, you acknowledge that outputs may
@@ -68,7 +68,7 @@
                 >. It does not constitute a doctor-patient relationship.
               </p>
               <p>
-                MediAI grants you a limited, non-exclusive license to use the
+                diagnosys grants you a limited, non-exclusive license to use the
                 prediction models for personal learning. Commercial or clinical
                 use is strictly prohibited.
               </p>
@@ -83,8 +83,8 @@
             </h2>
             <div class="text-[var(--subtext)] text-lg leading-relaxed">
               <p>
-                MediAI and its developers shall not be liable for any direct or
-                indirect consequences arising from the interpretation of
+                diagnosys and its developers shall not be liable for any direct
+                or indirect consequences arising from the interpretation of
                 results. Accuracy is not guaranteed, and the platform is
                 provided on an "as-is" basis.
               </p>

@@ -37,8 +37,7 @@ def init_db():
         user_email TEXT,
         disease_type TEXT NOT NULL,
         record_id INTEGER,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (record_id) REFERENCES DiabetesRecords(id)
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
     ''')
     

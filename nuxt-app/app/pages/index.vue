@@ -5,12 +5,12 @@
     <section
       class="relative pt-32 pb-32 px-6 overflow-hidden flex flex-col items-center justify-center min-h-[90vh]"
     >
-      <div
+      <!-- <div
         class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-[var(--primary)]/10 to-transparent rounded-full blur-[100px] -z-10 opacity-70 pointer-events-none"
-      ></div>
+      ></div> -->
 
       <div class="max-w-5xl mx-auto text-center flex flex-col items-center">
-        <div
+        <!-- <div
           class="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-[var(--bg-secondary)] text-[var(--primary)] text-sm font-semibold tracking-wide mb-12 shadow-sm"
         >
           <span class="relative flex h-2.5 w-2.5">
@@ -22,7 +22,7 @@
             ></span>
           </span>
           {{ $t("home.hero.badge") }}
-        </div>
+        </div> -->
 
         <h1
           class="text-6xl md:text-8xl lg:text-[7rem] font-bold tracking-tighter mb-8 leading-[1.05]"
